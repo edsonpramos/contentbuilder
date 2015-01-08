@@ -1,0 +1,102 @@
+#miolo{
+	width:1024px;
+	margin:25px auto 25px 25px;
+}
+ 
+#templates{
+	position:fixed;
+	right:0;
+	width:140px;
+	top:0;
+	bottom:0;
+	background: #bbb;
+	transition: right 1s;
+}
+#templates .scroll{
+	width:100%;
+	height:100%;
+	overflow:auto;
+}
+.fechado{ right:-120px;}
+
+.thumb {
+	margin:15px 15px;
+	padding:10px;
+	border-color:#666;
+	background-color:#ddd;
+	text-align:center;
+}
+.thumb:hover{
+	cursor:move;
+}
+
+.drop-hover{
+	border-color:#aaa;
+}
+
+.ui-state-highlight {
+	border:1px dashed #ccc; background:none; min-height:20px;
+}
+
+.template{
+	position:relative;
+}
+
+/*=== TOOLS ===*/
+.tool{
+	position:absolute;
+	z-index:9000;
+    top:0;
+    right:-63px;
+    opacity:.5;
+}
+    .tool:hover{
+        opacity:1;
+    }
+	.tool ul, li{
+		margin:0;
+		padding:0;
+	}
+	.tool ul:after, 
+	.tool ul:before{
+		content:" ";
+		display:block;
+		clear:both;
+		float:none;
+	}
+	.tool li{
+		display:inline-block;
+		float:left;
+		background:transparent url('../img/sprite.png') no-repeat 0 0;
+		width:22px;
+		height:22px;
+		margin:0 5px;
+        text-indent: -9000px;
+        cursor:default;
+	}
+    .tool li:hover{
+        cursor:pointer;
+    }
+    
+	.tool .bt_add{
+		background-position:-59px -4px;
+	}
+	.tool .bt_delete{
+		background-position:-142px -4px;
+	}
+    .tool .bt_cancel {
+        background-position: -35px -10px;
+    }
+    .tool .bt_edit{
+        background-position: -88px -4px
+    }
+    
+
+/*Accordion*/
+.tool-accordion{
+	top:0;
+	left:-55px;
+}
+
+/*MODAL*/
+.likeTextarea{border:1px solid #ccc; min-height:100px; max-height:300px; padding:5px; overflow:auto;}
