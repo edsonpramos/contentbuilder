@@ -38,9 +38,10 @@
 	border:1px dashed #ccc; background:none; min-height:20px;
 }
 
-.template{
+.bloco{
 	position:relative;
 }
+.template{}
 
 /*=== TOOLS ===*/
 .tool{
@@ -100,3 +101,8 @@
 
 /*MODAL*/
 .likeTextarea{border:1px solid #ccc; min-height:100px; max-height:300px; padding:5px; overflow:auto;}
+.help-block p{
+    font-size:.8em;
+    margin-bottom:5px;
+    line-height:120%;
+}

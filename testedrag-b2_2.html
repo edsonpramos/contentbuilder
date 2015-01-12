@@ -47,62 +47,116 @@
 	<p>Aliquam dui neque, dignissim sit amet aliquet at, tincidunt id nisi. Etiam vehicula, turpis eu hendrerit pretium, justo erat sagittis tortor, a tincidunt magna metus et mi. Ut id accumsan magna. Fusce eu eros vel mauris auctor imperdiet non in tellus. Vivamus nulla ante, aliquet et tempus sed, convallis a arcu. Cras id sem mi. Praesent sed sapien neque, ut consectetur mi.</p>
   </script>
   
-  <script id="tpt-01" type="text/template">
-	<table class="table">
-	  <caption>Caption</caption>
-	  <thead>
-		<tr>
-		  <th>TH</th>
-		  <th>TH</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <td>TD</td>
-		  <td>TD</td>
-		 </tr>
-	  </tbody>
-	</table>
-  </script>
-  
-  <script id="tpt-02" type="text/template">
-	<p>
-		<img class="img-responsive pull-right span8" src="img/imagem.png">
-		Pellentesque volutpat interdum ultricies. Aenean nibh eros, fermentum at sollicitudin sit amet, eleifend ac eros. Vestibulum ut diam arcu. Morbi feugiat fermentum dolor a convallis. Aenean mattis rhoncus lectus non porta. Duis in nisi nec nisi pulvinar iaculis. Aliquam accumsan nibh et sem condimentum vel scelerisque diam volutpat. Praesent vel risus enim, sed auctor libero. Duis nec mi massa, sed convallis diam. Integer venenatis porttitor facilisis. Nam aliquet odio quis sapien eleifend sollicitudin in a orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis urna metus, posuere at mattis in, rutrum sagittis massa. Vestibulum ac purus dui, sed tempor justo. Sed ultricies consectetur nibh sed mattis.
-	</p>
-  </script>
-  
-  <script id="tpt-14" data-type="tab" type="text/template">
-	<ul class="nav nav-tabs">
-	  <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-	  <li><a href="#profile" data-toggle="tab">Profile</a></li>
-	  <li><a href="#messages" data-toggle="tab">Messages</a></li>
-	  <li><a href="#settings" data-toggle="tab">Settings</a></li>
+  <!--TABLE-->
+  <script id="template_table" type="text/template">
+    <caption></caption>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
 	</ul>
-	 
-	<div class="tab-content">
-	  <div class="tab-pane active" id="home">...</div>
-	  <div class="tab-pane" id="profile">...</div>
-	  <div class="tab-pane" id="messages">...</div>
-	  <div class="tab-pane" id="settings">...</div>
-	</div>
+    ##
+    <form class="formtomodal">
+        <input id="tableModalCaption" type="text" placeholder="Título da tabela" class="gapbottom">
+        <input id="tableModalWidhts" type="text" placeholder="Larguras (ex.:2,4,4,2)" class="gapbottom">
+        <div id="tableModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span class="form-inline">
+            <label class="checkbox">
+                <input type="checkbox" value="table-striped"> striped
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" value="table-bordered"> bordered
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" value="table-hover"> hover
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" value="table-condensed"> condensed
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" value="table-bold"> bold
+            </label>
+        </span>
+	</form>
   </script>
   
+  <!--CAROUSEL-->
+  <script id="template_carousel" type="text/template">
+	<div id="carousel_{{id}}" class="carousel slide">
+        <ol class="carousel-indicators"></ol>
+        <div class="carousel-inner"></div>
+        <a class="left carousel-control" href="#carousel_{{id}}" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#carousel_{{id}}" data-slide="next">›</a>
+    </div>
+    ##
+    <li data-target="#carousel_{{id}}" data-slide-to="{{num}}"></li>
+    ##
+    <div class="item">
+        <img src="assets/img/bootstrap-mdo-sfmoma-01.jpg" alt="imagem do carrossel">
+        <div class="carousel-caption"></div>
+    </div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="carouselModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span class="help-block">Exemplo (usando marcadores no Word):
+            <p>>>Lorem ipsum dolor sit amet</p>
+            <p>Quisque lorem mi, consectetuer et, sodales eget, tempor vitae, justo. Donec gravida mauris vitae ante. Etiam consequat pretium leo.</p>
+            <p>Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p>
+            <p>>>Aliquam dui neque, dignissim sit</p>
+            <p>Sed tempor pretium sapien a pellentesque. Praesent id nisl quam. Duis quis neque a mauris interdum rutrum ac sit amet mi.</p>
+        </span>
+	</form>
+  </script>
+  
+  <!--TAB-->
+  <script id="template_tab" type="text/template">
+	<ul class="tab template nav nav-tabs" id="tab_{{id}}"></ul>
+    <div class="tab-content" id="tab-content_{{id}}"></div>
+    ##
+    <li><a href="#pane_{{childId}}" data-toggle="tab">Home</a></li>
+	## 
+	<div class="tab-pane" id="pane_{{childId}}">
+      <div class="bloco"></div>
+    </div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="tabModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span class="help-block">Exemplo (usando marcadores no Word):
+            <p>>>Lorem ipsum dolor sit amet</p>
+            <p>Quisque lorem mi, consectetuer et, sodales eget, tempor vitae, justo. Donec gravida mauris vitae ante. Etiam consequat pretium leo.</p>
+            <p>Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p>
+            <p>>>Aliquam dui neque, dignissim sit</p>
+            <p>Sed tempor pretium sapien a pellentesque. Praesent id nisl quam. Duis quis neque a mauris interdum rutrum ac sit amet mi.</p>
+        </span>
+	</form>
+  </script>
+  
+  <!--ACCORDION-->
   <script id="template_accordion" type="text/template">
     <div class="accordion template" id="accordion_{{id}}"></div>
     ##
     <div class="accordion-group">
 		<div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_{{id}}" href="#collapse_{{childId}}">Insira um título aqui.</a>
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_{{id}}" href="#collapse_{{childId}}"></a>
 		</div>
 		<div id="collapse_{{childId}}" class="accordion-body collapse">
             <div class="accordion-inner">
-                <div class="bloco"><p>Insira um texto aqui.</p></div>
+                <div class="bloco"></div>
             </div>
 		</div>
     </div>
     ##
-    <ul class="tool hide" data-target="#accordion_{{id}}">
+    <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
 	</ul>
@@ -118,6 +172,8 @@
         </span>
 	</form>
   </script>
+  
+  <!--MODAL-->
   <script id="template_modal" type="text/template">
     <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-header">
@@ -132,6 +188,8 @@
       </div>
     </div>
   </script>
+  
+    
 </head>
 <body>
 <a href="#miolo" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -143,28 +201,13 @@
 	<div id="templates">
 	  <div class="scroll">
 		<div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
-	
-		<div class="thumb" data-template="textpict-left"><img src="img/templates/textpict-left.png"/></div>
-		<div class="thumb" data-template="textpict-right"><img src="img/templates/textpict-right.png"/></div>
-		<div class="thumb" data-template="textpict-left"><img src="img/templates/textpict-left-large.png"/></div>
-		<div class="thumb" data-template="textpict-right"><img src="img/templates/textpict-right-large.png"/></div>
-		
-		<div class="thumb" data-template="textpict-left"><img src="img/templates/texteye-left.png"/></div>
-		<div class="thumb" data-template="textpict-right"><img src="img/templates/texteye-right.png"/></div>
-		<div class="thumb" data-template="textpict-left"><img src="img/templates/texteye-left-large.png"/></div>
-		<div class="thumb" data-template="textpict-right"><img src="img/templates/texteye-right-large.png"/></div>
-		
+		<div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
+		<div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
 		<div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
-		<div class="thumb" data-template="pict-3cols"><img src="img/templates/pict-3cols.png"/></div>
-		
-		<div class="thumb" data-template="table-striped"><img src="img/templates/table-striped.png"/></div>
-		<div class="thumb" data-template="table-striped-hard"><img src="img/templates/table-striped-hard.png"/></div>
-		
+		<div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>
 		<div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
-		
 		<div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
-		
-		<div class="thumb" data-template="slider"><img src="img/templates/slider.png"/></div>	
+		<div class="thumb" data-template="carousel"><img src="img/templates/carousel.png"/></div>
 	  </div>
 	</div> 
  </body>
