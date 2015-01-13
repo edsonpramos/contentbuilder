@@ -304,14 +304,16 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do table', templates.table.properties.template_modal, templates.table.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var template, content, tool, table, caption;
+            var content, tool, table, caption;
 
            //limpa o html que veio do modal
             content = $(templates.utils.regex.cleanCode($('#tableModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
             
             for(var x=0;x<content.length;x++){
-                if(content.eq(x).nodeName == "table"){
+                
+                if(content.eq(x).get(0).tagName == "TABLE"){
                     table = content.eq(x);
+                    table.attr('id','table_'+template_id);
                     break;
                 }
             }
@@ -323,24 +325,49 @@ var templates = {
                     table.prepend(caption);
                 }
                 
-                if($('#tableModalCaption').val().indexof(',') != -1){
-                    table = setWidths(table,$('#tableModalWidths').val());
-                }   
+                if($('#tableModalWidhts').val().indexOf(',') != -1){
+                    table = setWidths(table,$('#tableModalWidhts').val());
+                } 
                 
-                 //Verifica existência do bloco do template
+                table = setClasses(table);
+                
+                //Verifica existência do bloco do template
                 if($('#bloco_'+template_id).size() > 0){
                     $('#bloco_'+template_id).children().not('.tool').remove();
-                    $('#bloco_'+template_id).append(template);
+                    $('#bloco_'+template_id).append(table);
                 }else{
                     tool = templates.table.defineTools(template_id);
-                    templates.utils.appendAll('table',[template,tool],ui,template_id);
+                    templates.utils.appendAll('table',[table,tool],ui,template_id);
                 };
             }
             
             function setWidths(table,widths){
-            
+                var widths = widths.split(',');
+                var cels = table.find('tr').eq(0).children();
+                
+                if(widths.length == cels.length){
+                    for(var x = 0; x < cels.length; x++){
+                        cels.eq(x).attr('class','span'+widths[x])
+                    }
+                }
                 return table;
+            }
             
+            function setClasses(table){
+                var checkeds = $('#tableModalClasses').find('input:checked');
+                
+                if(!table.hasClass('table')){
+                    table.addClass('table');
+                }
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                         table.addClass(checkeds.eq(x).val());//classes += (" ."+checkeds.eq(x).val());
+                    }
+                   //table.attr('class',classes);
+                }
+                
+                return table;
             }
         },
         defineTools:function(template_id){
@@ -354,15 +381,42 @@ var templates = {
                 
                 function getAppendedContent(template_id){
                     var content = "";
-                    var itens = $('#table_'+template_id).children();
+                    var table = $('#table_'+template_id).clone();
+                    var cels = table.find('tr').eq(0).children('td');
+                    var widths = "";
+                    var tdClasses, tableClasses, spanNum, caption;
+                    var input;
+                    var regex = /span[^\s]*/;
                     
-                    for (var x = 0; x < itens.length; x++){
-                       content += ("<p>&gt;&gt;"+itens.eq(x).find('.table-toggle').eq(0).html().toString()+"</p>");
-                       content += itens.eq(x).find('.bloco').eq(0).html().toString();
+                    for (var x = 0; x < cels.length; x++){
+                        tdClasses = cels.eq(x).attr('class');
+                         
+                        if(tdClasses.indexOf('span') != -1){
+                            spanNum = regex.exec(tdClasses).toString().replace('span','');
+                            widths += ((widths != "")? ','+spanNum : spanNum);
+                        }
+                        cels.eq(x).removeAttr('class');
                     }
                     
+                    tableClasses = table.attr('class').split(' ');
+                    
                     var template_modal = $(templates.table.properties.template_modal);
-                       template_modal.find('.editable').eq(0).html(content);
+                    
+                    caption = table.children('caption').eq(0);
+                    caption.remove();
+                    template_modal.find('#tableModalCaption').eq(0).val(caption.html());
+                    
+                    template_modal.find('#tableModalWidhts').eq(0).val(widths);
+                    
+                    for(x = 0; x < tableClasses.length; x++){
+                        input = template_modal.find('#tableModal_'+tableClasses[x]);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    table.removeAttr('class').removeAttr('id').attr('border','1');
+                    
+                    template_modal.find('.editable').eq(0).html(table);
                     
                     return template_modal;
                 }
@@ -435,7 +489,8 @@ var templates = {
             msoClass : / class="MsoNormal"/gi,
             tableHeader : / class="MsoTableGrid[^>]*"/gi,
             tableCel : / width="[^>]*"/gi,
-            wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle'],
+            tableBorder: /border="[^"]*"/,
+            wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle','tableBorder'],
             cleanCode : function(str,regexlist){
                 for( item in regexlist){
                     str = str.replace(templates.utils.regex[regexlist[item]],"");

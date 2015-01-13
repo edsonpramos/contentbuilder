@@ -57,24 +57,24 @@
 	</ul>
     ##
     <form class="formtomodal">
-        <input id="tableModalCaption" type="text" placeholder="Título da tabela" class="gapbottom">
+        <input id="tableModalCaption" class="span4" type="text" placeholder="Título da tabela" class="gapbottom"><br/>
         <input id="tableModalWidhts" type="text" placeholder="Larguras (ex.:2,4,4,2)" class="gapbottom">
         <div id="tableModalContent" contenteditable="true" class="likeTextarea editable"></div>
-        <span class="form-inline">
+        <span id="tableModalClasses" class="form-inline">
             <label class="checkbox">
-                <input type="checkbox" value="table-striped"> striped
+                <input id="tableModal_table-striped" type="checkbox" value="table-striped"> striped
             </label>
             <label class="checkbox">
-                <input type="checkbox" value="table-bordered"> bordered
+                <input id="tableModal_table-bordered" type="checkbox" value="table-bordered"> bordered
             </label>
             <label class="checkbox">
-                <input type="checkbox" value="table-hover"> hover
+                <input id="tableModal_table-hover" type="checkbox" value="table-hover"> hover
             </label>
             <label class="checkbox">
-                <input type="checkbox" value="table-condensed"> condensed
+                <input id="tableModal_table-condensed" type="checkbox" value="table-condensed"> condensed
             </label>
             <label class="checkbox">
-                <input type="checkbox" value="table-bold"> bold
+                <input id="tableModal_table-bold" type="checkbox" value="table-bold"> bold
             </label>
         </span>
 	</form>
