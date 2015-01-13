@@ -428,6 +428,90 @@ var templates = {
             });
             return tools;
         },
+    },  
+    //========================================= BOX ==========================================
+    box:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.box.properties.started){
+                templates.box.properties.template_full = $("#template_box").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.box.properties.template_tool = templates.box.properties.template_full[0];
+                templates.box.properties.template_modal = templates.box.properties.template_full[1];
+                templates.box.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do box', templates.box.properties.template_modal, templates.box.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var box, tool;
+
+           //limpa o html que veio do modal
+            box = $('<div id="box_'+template_id+'">'+templates.utils.regex.cleanCode($('#boxModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><')+'</div>');
+            
+            box = setClasses(box);
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append(box);
+            }else{
+                tool = templates.box.defineTools(template_id);
+                templates.utils.appendAll('box',[box,tool],ui,template_id);
+            };
+            
+            function setClasses(box){
+                var checkeds = $('#boxModalClasses').find('input:checked');
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                         box.addClass(checkeds.eq(x).val());
+                    }
+                }
+                
+                return box;
+            }
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.box.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do box', filledModal, templates.box.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var content = "";
+                    var box = $('#box_'+template_id).clone();
+                    var boxClasses = box.attr('class').split(' ');
+                    
+                    var template_modal = $(templates.box.properties.template_modal);
+                    
+                    for(x = 0; x < boxClasses.length; x++){
+                        input = template_modal.find('#boxModal_'+boxClasses[x]);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    
+                    template_modal.find('.editable').eq(0).html(box.html());
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
     },
     //========================================= UTILS ==========================================
     utils:{

@@ -42,10 +42,31 @@
   });    
   </script>
   
-  <script id="tpt-00" type="text/template">
-	<h3>Vai meu filho</h3>
-	<p>Aliquam dui neque, dignissim sit amet aliquet at, tincidunt id nisi. Etiam vehicula, turpis eu hendrerit pretium, justo erat sagittis tortor, a tincidunt magna metus et mi. Ut id accumsan magna. Fusce eu eros vel mauris auctor imperdiet non in tellus. Vivamus nulla ante, aliquet et tempus sed, convallis a arcu. Cras id sem mi. Praesent sed sapien neque, ut consectetur mi.</p>
-  </script>
+  <!--BOX-->
+  <script id="template_box" type="text/template">
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="boxModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span id="boxModalClasses" class="form-inline">
+            <label class="checkbox">
+                <input id="boxModal_box-destaque" type="checkbox" value="box-destaque"> destaque
+            </label>
+            <label class="checkbox">
+                <input id="boxModal_box-dica" type="checkbox" value="box-dica"> dica
+            </label>
+            <label class="checkbox">
+                <input id="boxModal_linkexterno" type="checkbox" value="linkexterno"> linkexterno
+            </label>
+            <label class="checkbox">
+                <input id="boxModal_sem-icone" type="checkbox" value="sem-icone"> sem-icone
+            </label>
+        </span>
+	</form>
+  </script> 
   
   <!--TABLE-->
   <script id="template_table" type="text/template">
@@ -200,10 +221,13 @@
 	</div>
 	<div id="templates">
 	  <div class="scroll">
+        <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
 		<div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
 		<div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
 		<div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
 		<div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
+        <div class="thumb" data-template="video"><img src="img/templates/video.png"/></div>
+        <div class="thumb" data-template="box"><img src="img/templates/box.png"/></div>
 		<div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>
 		<div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
 		<div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
