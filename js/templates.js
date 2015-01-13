@@ -458,13 +458,13 @@ var templates = {
                     modal_body.children().remove();
                     modal_body.append(template_modal);
             },
-            checkIfModalIsAppended:function(){
+            checkIfModalIsAppended:function(ui){
                 if($('#modal').size() == 0){
                     $('body').append($('#template_modal').html());
                 }
             },
             openModal:function(modal_label, template_modal, sendContent, id, ui){
-                templates.utils.modal.checkIfModalIsAppended();
+                templates.utils.modal.checkIfModalIsAppended(ui);
                 templates.utils.modal.appendModalBody(template_modal);
                 
                 $('#modalLabel').html(modal_label);
@@ -472,6 +472,11 @@ var templates = {
                     sendContent(id,ui);
                     $('#modal').modal('hide');
                 });
+                $('#modalCancel').unbind('click').bind('click',function(){
+                    ui.helper.remove();
+                    $('#modal').modal('hide');
+                });
+                
                 $('#modal').modal({
                     backdrop:'static',
                     keyboard:false,
