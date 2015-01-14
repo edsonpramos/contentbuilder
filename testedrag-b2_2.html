@@ -35,13 +35,138 @@
 	$( ".thumb" ).draggable({
       helper: "clone",
 	  cursor:"crosshair",
-	  cursorAt: { top: 0 },
+	  /*cursorAt: { top: 0 },*/
       opacity:.7,
 	  connectToSortable: "#miolo",
     });
   });    
   </script>
   
+  <!--TEXT-->
+  <script id="template_text" type="text/template">
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="textModalContent" contenteditable="true" class="likeTextarea editable"></div>
+	</form>
+  </script> 
+  
+  
+  <!--TEXTEYE-->
+  <script id="template_texteye" type="text/template">
+    <div class="box-citacao"></div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="texteyeModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span id="texteyeModalClasses" class="form-inline">
+            <label class="checkbox">
+                <input id="texteyeModal_noborder" type="checkbox" value="noborder"> noborder
+            </label>
+            <label class="checkbox">
+                <em>Alinhamento:</em>
+            </label>
+            <label class="checkbox">
+                <input id="texteyeModal_pull-left" type="radio" name="texteye_align" value="pull-left"> left
+            </label>
+            <label class="checkbox">
+                <input id="texteyeModal_pull-right" type="radio" name="texteye_align" value="pull-right"> right
+            </label>
+            <label class="checkbox">
+                <em>Largura:</em>
+            </label>
+            <label class="checkbox">
+                <input id="texteyeModal_span4" type="radio" name="texteye_width" value="span4"> 1col
+            </label>
+            <label class="checkbox">
+                <input id="texteyeModal_span8" type="radio" name="texteye_width" value="span8"> 2cols
+            </label>
+            <label class="checkbox">
+                <input id="texteyeModal_span12" type="radio" name="texteye_width" value="span4"> 3cols
+            </label>
+        </span>
+	</form>
+  </script> 
+  
+  <!--TEXTPICT-->
+  <script id="template_textpict" type="text/template">
+    <div class="box-imagem">
+        <img class="img-responsive" src="" alt=""/>
+    </div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="textpictModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span id="textpictModalClasses" class="form-inline">
+            <label class="checkbox">
+                <input id="textpictModal_noborder" type="checkbox" value="noborder"> noborder
+            </label>
+            <label class="checkbox">
+                <em>Alinhamento:</em>
+            </label>
+            <label class="checkbox">
+                <input id="textpictModal_pull-left" type="radio" name="textpict_align" value="pull-left"> left
+            </label>
+            <label class="checkbox">
+                <input id="textpictModal_pull-right" type="radio" name="textpict_align" value="pull-right"> right
+            </label>
+            <label class="checkbox">
+                <em>Largura:</em>
+            </label>
+            <label class="checkbox">
+                <input id="textpictModal_span4" type="radio" name="textpict_width" value="span4"> 1col
+            </label>
+            <label class="checkbox">
+                <input id="textpictModal_span8" type="radio" name="textpict_width" value="span8"> 2cols
+            </label>
+            <label class="checkbox">
+                <input id="textpictModal_span12" type="radio" name="textpict_width" value="span4"> 3cols
+            </label>
+        </span>
+	</form>
+  </script> 
+  
+  <!--PICT-->
+  <script id="template_pict" type="text/template">
+    <div id="pict_{{id}}" class="box-imagem">
+        <img class="img-responsive" src="" alt=""/>
+    </div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="pictModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span id="pictModalClasses" class="form-inline">
+            <label class="checkbox">
+                <input id="pictModal_noborder" type="checkbox" value="noborder"> noborder
+            </label>
+            <label class="checkbox">
+                <input id="pictModal_span4" type="checkbox" value="span4"> 1col
+            </label>
+            <label class="checkbox">
+                <input id="pictModal_span8" type="checkbox" value="span8"> 2cols
+            </label>
+            <label class="checkbox">
+                <input id="pictModal_span12" type="checkbox" value="span4"> 3cols
+            </label>
+        </span>
+	</form>
+  </script> 
+
   <!--BOX-->
   <script id="template_box" type="text/template">
     <ul class="tool hide" data-target="{{id}}">
@@ -96,6 +221,9 @@
             </label>
             <label class="checkbox">
                 <input id="tableModal_table-bold" type="checkbox" value="table-bold"> bold
+            </label>
+            <label class="checkbox">
+                <input id="tableModal_table-highlight-header" type="checkbox" value="table-highlight-header"> highlight
             </label>
         </span>
 	</form>
@@ -223,9 +351,9 @@
 	  <div class="scroll">
         <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
 		<div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
+        <div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
+        <div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
 		<div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
-		<div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
-		<div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
         <div class="thumb" data-template="video"><img src="img/templates/video.png"/></div>
         <div class="thumb" data-template="box"><img src="img/templates/box.png"/></div>
 		<div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>

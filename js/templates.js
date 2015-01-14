@@ -382,20 +382,24 @@ var templates = {
                 function getAppendedContent(template_id){
                     var content = "";
                     var table = $('#table_'+template_id).clone();
-                    var cels = table.find('tr').eq(0).children('td');
+                    var tr = table.find('tr').eq(0);
+                    var cels = tr.children('td');
                     var widths = "";
                     var tdClasses, tableClasses, spanNum, caption;
                     var input;
                     var regex = /span[^\s]*/;
+                    var regex2 = /class\s?="[^"]*span[^"]*"/;
                     
-                    for (var x = 0; x < cels.length; x++){
-                        tdClasses = cels.eq(x).attr('class');
-                         
-                        if(tdClasses.indexOf('span') != -1){
-                            spanNum = regex.exec(tdClasses).toString().replace('span','');
-                            widths += ((widths != "")? ','+spanNum : spanNum);
+                    if(regex2.test(tr.html().toString())){
+                        for (var x = 0; x < cels.length; x++){
+                            tdClasses = cels.eq(x).attr('class');
+                             
+                            if(tdClasses.indexOf('span') != -1){
+                                spanNum = regex.exec(tdClasses).toString().replace('span','');
+                                widths += ((widths != "")? ','+spanNum : spanNum);
+                            }
+                            cels.eq(x).removeAttr('class');
                         }
-                        cels.eq(x).removeAttr('class');
                     }
                     
                     tableClasses = table.attr('class').split(' ');
@@ -487,7 +491,6 @@ var templates = {
                 templates.utils.modal.openModal('Conteúdo do box', filledModal, templates.box.mergeContent, template_id,'');
                 
                 function getAppendedContent(template_id){
-                    var content = "";
                     var box = $('#box_'+template_id).clone();
                     var boxClasses = box.attr('class').split(' ');
                     
@@ -501,6 +504,371 @@ var templates = {
                     }
                     
                     template_modal.find('.editable').eq(0).html(box.html());
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
+    },
+    //========================================= pict ==========================================
+    pict:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_pict:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.pict.properties.started){
+                templates.pict.properties.template_full = $("#template_pict").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.pict.properties.template_pict = templates.pict.properties.template_full[0];
+                templates.pict.properties.template_tool = templates.pict.properties.template_full[1];
+                templates.pict.properties.template_modal = templates.pict.properties.template_full[2];
+                templates.pict.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do pict', templates.pict.properties.template_modal, templates.pict.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var template, content, tool;
+            
+            template = $(templates.pict.properties.template_pict.replace(/(\{\{id\}\})/g,template_id));
+            template = setClasses(template);
+
+           //limpa o html que veio do modal
+            content = $(templates.utils.regex.cleanCode($('#pictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            
+            content.each(function(i){
+                //busca token >>
+                if(templates.utils.regex.gt.test($(this).html().toString())){
+                    template.children('img').eq(0).attr('src', templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
+                }else{
+                    template.append($(this));
+                }
+            });
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append(template);
+            }else{
+                tool = templates.pict.defineTools(template_id);
+                templates.utils.appendAll('pict',[template,tool],ui,template_id);
+            };
+            
+            function setClasses(template){
+                var checkeds = $('#pictModalClasses').find('input:checked');
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                         template.addClass(checkeds.eq(x).val());
+                    }
+                }
+                
+                return template;
+            }
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.pict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do pict', filledModal, templates.pict.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var pict = $('#pict_'+template_id);
+                    var pictClasses = pict.attr('class').split(' ');
+                    var urltoken = '<p>&gt;&gt;'+pict.children('img').eq(0).attr('src')+'</p>';
+                    
+                    var template_modal = $(templates.pict.properties.template_modal);
+                    
+                    for(x = 0; x < pictClasses.length; x++){
+                        input = template_modal.find('#pictModal_'+pictClasses[x]);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    
+                    template_modal.find('.editable').eq(0).append(urltoken,pict.children().not('img'));
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
+    },
+    //========================================= TEXTPICT ==========================================
+    textpict:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_textpict:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.textpict.properties.started){
+                templates.textpict.properties.template_full = $("#template_textpict").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.textpict.properties.template_textpict = templates.textpict.properties.template_full[0];
+                templates.textpict.properties.template_tool = templates.textpict.properties.template_full[1];
+                templates.textpict.properties.template_modal = templates.textpict.properties.template_full[2];
+                templates.textpict.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do textpict', templates.textpict.properties.template_modal, templates.textpict.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var template, content, content_text = [], tool, flagImageBox = false, idx = 0;
+            
+            template = $(templates.textpict.properties.template_textpict);
+            
+            content_text.push(setClasses(template));
+            
+           //limpa o html que veio do modal
+            content = $(templates.utils.regex.cleanCode($('#textpictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            
+            content.each(function(i){
+                //busca token >>
+                if(templates.utils.regex.gt.test($(this).html().toString())){
+                    content_text[0].children('img').eq(0).attr('src', templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
+                    flagImageBox = true;
+                    idx++;
+                }else{
+                    if(flagImageBox){
+                        content_text[0].append($(this));//content_text[0] = template
+                        idx++
+                    }else{
+                        content_text.push($(this));
+                        idx++
+                    }
+                }
+            });
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append(content_text);
+            }else{
+                tool = templates.textpict.defineTools(template_id);
+                content_text.push(tool);
+                templates.utils.appendAll('textpict',content_text,ui,template_id);
+            };
+            
+            function setClasses(template){
+                var checkeds = $('#textpictModalClasses').find('input:checked');
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                         template.addClass(checkeds.eq(x).val());
+                    }
+                }
+                
+                return template;
+            }
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.textpict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do textpict', filledModal, templates.textpict.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var textpict = $('#bloco_'+template_id).find('.box-imagem').eq(0);
+                    var textpictClasses = textpict.attr('class').split(' ');
+                    var urltoken = '<p>&gt;&gt;'+textpict.children('img').eq(0).attr('src')+'</p>';
+                    
+                    var template_modal = $(templates.textpict.properties.template_modal);
+                    
+                    for(x = 0; x < textpictClasses.length; x++){
+                        input = template_modal.find('#textpictModal_'+textpictClasses[x]);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    
+                    template_modal.find('#textpictModalContent').eq(0).append($('#bloco_'+template_id).clone().children().not('.box-imagem,.tool'),urltoken,textpict.children().not('img'));
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
+    },
+    //========================================= TEXTEYE ==========================================
+    texteye:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_texteye:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.texteye.properties.started){
+                templates.texteye.properties.template_full = $("#template_texteye").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.texteye.properties.template_texteye = templates.texteye.properties.template_full[0];
+                templates.texteye.properties.template_tool = templates.texteye.properties.template_full[1];
+                templates.texteye.properties.template_modal = templates.texteye.properties.template_full[2];
+                templates.texteye.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do texteye', templates.texteye.properties.template_modal, templates.texteye.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var template, content, content_text = [], tool, flagImageBox = false;
+            
+            template = $(templates.texteye.properties.template_texteye);
+            
+            content_text.push(setClasses(template));
+            
+           //limpa o html que veio do modal
+            content = $(templates.utils.regex.cleanCode($('#texteyeModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            
+            content.each(function(i){
+                //busca token >>
+                if(templates.utils.regex.gt.test($(this).html().toString())){
+                    content_text[0].append(templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
+                    flagImageBox = true;
+                }else{
+                    if(flagImageBox){
+                        content_text[0].append($(this));//content_text[0] = template
+                    }else{
+                        content_text.push($(this));
+                    }
+                }
+            });
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append(content_text);
+            }else{
+                tool = templates.texteye.defineTools(template_id);
+                content_text.push(tool);
+                templates.utils.appendAll('texteye',content_text,ui,template_id);
+            };
+            
+            function setClasses(template){
+                var checkeds = $('#texteyeModalClasses').find('input:checked');
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                         template.addClass(checkeds.eq(x).val());
+                    }
+                }
+                
+                return template;
+            }
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.texteye.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do texteye', filledModal, templates.texteye.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var texteye = $('#bloco_'+template_id).find('.box-citacao').eq(0);
+                    var texteyeClasses = texteye.attr('class').split(' ');
+                    var texteyeToken = $('<p>&gt;&gt;'+texteye.html()+'</p>');
+                    
+                    var template_modal = $(templates.texteye.properties.template_modal);
+                    
+                    for(x = 0; x < texteyeClasses.length; x++){
+                        input = template_modal.find('#texteyeModal_'+texteyeClasses[x]);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    
+                    template_modal.find('#texteyeModalContent').eq(0).append($('#bloco_'+template_id).clone().children().not('.box-citacao,.tool'),texteyeToken);
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
+    },
+    //========================================= TEXT ==========================================
+    text:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.text.properties.started){
+                templates.text.properties.template_full = $("#template_text").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.text.properties.template_tool = templates.text.properties.template_full[0];
+                templates.text.properties.template_modal = templates.text.properties.template_full[1];
+                templates.text.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do text', templates.text.properties.template_modal, templates.text.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var content, tool;
+            
+           //limpa o html que veio do modal
+            content = $(templates.utils.regex.cleanCode($('#textModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append(content);
+            }else{
+                tool = templates.text.defineTools(template_id);
+                templates.utils.appendAll('text',[content,tool],ui,template_id);
+            };
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.text.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do text', filledModal, templates.text.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var text = $('#bloco_'+template_id);
+                    var template_modal = $(templates.text.properties.template_modal);
+                    
+                    template_modal.find('#textModalContent').eq(0).append(text.clone().children().not('.tool'));
                     
                     return template_modal;
                 }
@@ -528,6 +896,9 @@ var templates = {
             
             ui.helper.after(block);
             ui.helper.remove();
+        },
+        attachInlineEditor:function(){
+        
         },
         getUid:function() {
             var s4 = new Array(8);

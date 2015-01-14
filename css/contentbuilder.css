@@ -23,7 +23,7 @@
 
 .thumb {
 	margin:0;
-	padding:10px 0;
+	padding:10px;
 	border-color:#666;
 	background-color:#ddd;
 	text-align:center;
@@ -42,6 +42,12 @@
 
 .bloco{
 	position:relative;
+}
+.bloco:after, .bloco:before{
+    content:" ";
+    display:block;
+    float:none;
+    clear:both;
 }
 .template{}
 

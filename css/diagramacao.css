@@ -72,9 +72,13 @@ h2{
 	font-weight:bold;
 	line-height:36px;
 }
-label{
-cursor:default;
+
+.miolo h3{
+	color:#3366A5;
+	line-height: 30px;
 }
+
+label{cursor:default;}
 
 /*TABLE*/
 th, td {
@@ -88,11 +92,12 @@ th, td {
 	border-collapse: collapse;
 }
 
-.miolo h3{
-	color:#3366A5;
-	line-height: 30px;
+#miolo .table-highlight-header tbody > tr:first-child td{
+    background-color:blue;
+    color:white;
 }
 
+/*BOX*/
 .box-imagem img{border:1px solid #ccc; margin:0 !important;}
 .box-imagem label{color:#999; font-weight:bold; font-style:italic;}
 
@@ -116,10 +121,6 @@ th, td {
 	padding: 4px 0;
 }
 
-.miolo .pull-right{ margin-left:2.3% !important; margin-right:0 !important;}
-.miolo .pull-left{ margin-right:2.3% !important; margin-left:0 !important;}
-.miolo ul ul{list-style:circle;}
-
 .box-destaque{
 	background-color:#eee;
 	border: 1px solid #ccc;
@@ -138,6 +139,9 @@ th, td {
 	background-position:10px center;
 }
 
+.miolo .pull-right{ margin-left:2.3% !important; margin-right:0 !important;}
+.miolo .pull-left{ margin-right:2.3% !important; margin-left:0 !important;}
+.miolo ul ul{list-style:circle;}
 .miolo .clearfix{
 	clear:both;
 }
@@ -166,6 +170,11 @@ th, td {
 	margin-left:auto !important;
 	margin-right:auto !important;
 } 
+
+#miolo .pull-left {
+    margin-left: 0;
+    margin-right:20px;
+}
 
 /*=========================== RESPONSIVIDADE =================================*/
 
