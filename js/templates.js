@@ -881,6 +881,102 @@ var templates = {
             return tools;
         },
     },
+    //========================================= video ==========================================
+    video:{
+        properties:{
+            started:false,
+            template_full:null,
+            template_parent:null,
+            template_script:null,
+            template_sources:null,
+            template_tracks:null,
+            template_hidden:null,
+            template_tool:null,
+            template_modal:null,
+        },
+        init:function(ui){
+            //sapara o conteúdo da tag script em strings distintas
+            if(!templates.video.properties.started){
+                templates.video.properties.template_full = $("#template_video").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
+                templates.video.properties.template_parent = templates.video.properties.template_full[0];
+                templates.video.properties.template_script = templates.utils.regex.cleanCode(templates.video.properties.template_full[1],['codeopen','codeclose']);
+                templates.video.properties.template_sources = templates.utils.regex.cleanCode(templates.video.properties.template_full[2],['codeopen','codeclose']);
+                templates.video.properties.template_tracks = templates.utils.regex.cleanCode(templates.video.properties.template_full[3],['codeopen','codeclose']);
+                templates.video.properties.template_hidden = templates.video.properties.template_full[4];
+                templates.video.properties.template_tool = templates.video.properties.template_full[5];
+                templates.video.properties.template_modal = templates.video.properties.template_full[6];
+                templates.video.properties.started = true;
+            }
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do video', templates.video.properties.template_modal, templates.video.mergeContent,templates.utils.getUid(),ui);
+        },
+        mergeContent:function(template_id,ui){
+            var video, sources, captions, chapters, script, sourcesfull, sources = "", source, tracks, hiddenform, tool;
+            
+            //pega os dados do form
+            sourcesfull = $('#video-sources').val().toString().replace(/[\n\r\t]/gi,"").split(';');
+            captions = templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-captions').val()).replace('\{\{kind\}\}','captions');
+            chapters = templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-chapters').val()).replace('\{\{kind\}\}','captions');
+            
+            for(var x=0; x < sourcesfull.length; x++){
+                //if(sourcesfull[x].split(',').length >= 3){
+                    source = sourcesfull[x].split(',');
+                    sources += templates.video.properties.template_sources.replace('\{\{file\}\}',source[0]).replace('\{\{label\}\}',source[1]).replace('\{\{default\}\}',source[2]);
+               // }
+            }
+           
+            video = $(templates.video.properties.template_parent.replace('\{\{id\}\}',template_id));
+            script = $('<script>' + templates.video.properties.template_script.replace('\{\{id\}\}',template_id).replace('\{\{sources\}\}',sources).replace('\{\{tracks\}\}',captions+chapters).replace('\{\{image\}\}',$('#video-image').val()) + '</script>');
+            
+            hiddenform = templates.video.properties.template_hidden.replace('\{\{id\}\}',template_id),
+            hiddenform = hiddenform.replace('\{\{sources\}\}',$('#video-sources').val().toString().replace(/[\n\r\t]/gi,""));
+            hiddenform = hiddenform.replace('\{\{captions\}\}',$('#video-captions').val());
+            hiddenform = hiddenform.replace('\{\{chapters\}\}',$('#video-chapters').val());
+            hiddenform = hiddenform.replace('\{\{image\}\}',$('#video-image').val());
+            hiddenform = $(hiddenform);
+            
+            //Verifica existência do bloco do template
+            if($('#bloco_'+template_id).size() > 0){
+                $('#bloco_'+template_id).children().not('.tool').remove();
+                $('#bloco_'+template_id).append([video,script,hiddenform]);
+            }else{
+                tool = templates.video.defineTools(template_id);
+                templates.utils.appendAll('video',[video,script,hiddenform,tool],ui,template_id);
+            };
+        },
+        defineTools:function(template_id){
+            var tools = $(templates.video.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            //EDIT
+            tools.children('.bt_edit:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var filledModal = getAppendedContent(template_id);
+                //chama o modal para editar conteúdo
+                templates.utils.modal.openModal('Conteúdo do video', filledModal, templates.video.mergeContent, template_id,'');
+                
+                function getAppendedContent(template_id){
+                    var form_hidden = $('#bloco_'+template_id).find('.form-hidden').eq(0);
+                    var sources = form_hidden.find('.video-sources').eq(0).val();
+                    var captions = form_hidden.find('.video-captions').eq(0).val();
+                    var chapters = form_hidden.find('.video-chapters').eq(0).val();
+                    var image = form_hidden.find('.video-image').eq(0).val();
+                    var template_modal = $(templates.video.properties.template_modal);
+                    
+                    template_modal.find('#video-sources').eq(0).val(sources);
+                    template_modal.find('#video-captions').eq(0).val(captions);
+                    template_modal.find('#video-chapters').eq(0).val(chapters);
+                    template_modal.find('#video-image').eq(0).val(image);
+                    
+                    return template_modal;
+                }
+            });
+            //DELETE
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+            return tools;
+        },
+    },
     //========================================= UTILS ==========================================
     utils:{
         appendAll:function(template_name,elements,ui,template_id){
@@ -950,6 +1046,8 @@ var templates = {
             tableHeader : / class="MsoTableGrid[^>]*"/gi,
             tableCel : / width="[^>]*"/gi,
             tableBorder: /border="[^"]*"/,
+            codeopen : /<code[^>]*>/gi,
+            codeclose : /<\/code>/gi,
             wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle','tableBorder'],
             cleanCode : function(str,regexlist){
                 for( item in regexlist){

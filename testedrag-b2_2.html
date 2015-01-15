@@ -13,8 +13,10 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-collapse.js"></script>
   <script src="js/bootstrap-tab.js"></script>
-  <script src="js/templates.js"></script>
   <script src="ckeditor/ckeditor.js"></script>
+  <script src="jwplayer/jwplayer.js"></script>
+  <script src="js/templates.js"></script>
+  
   <script>
   $(function() {
     $( "#miolo" ).sortable({
@@ -41,6 +43,65 @@
     });
   });    
   </script>
+  
+  
+  
+  
+  
+  <!--VIDEO-->
+  <script id="template_video" type="text/template">
+    <div id="video_{{id}}"></div>
+    ##
+    <code>
+    jwplayer("video_{{id}}").setup({
+        flashplayer: "http://srv-appdesen-01/moodle_27/jwplayer/jwplayer.flash.swf",
+        playlist:[{
+            sources:[{{sources}}],
+            tracks:[{{tracks}}],
+            image: "{{image}}",
+            logo:{hide:true},
+            width:"100%",
+            aspectratio: "16:9",
+        }]
+    });
+    </code>
+    ##
+    <code>
+        {
+            file:"{{file}}",
+            label:"{{label}}",
+            default:"{{default}}"
+        },
+    </code>
+    ##
+    <code>
+        {
+            file:"{{file}}",
+            kind:"{{kind}}"
+        },
+    </code>
+    ##
+    <form id="form-video_{{id}}" class="form-hidden">
+        <input type="hidden" class="video-sources" value="{{sources}}"/>
+        <input type="hidden" class="video-captions" value="{{captions}}"/>
+        <input type="hidden" class="video-chapters" value="{{chapters}}"/>
+        <input type="hidden" class="video-image" value="{{image}}"/>
+    </form>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <textarea id="video-sources" placeholder="url dos vídeos"></textarea>
+        <span class="help-block">Use: url,label,default; ...</span>
+        <input type="text" id="video-captions" placeholder="url da legenda"/>
+        <input type="text" id="video-chapters" placeholder="url dos capítulos"/>
+        <input type="text" id="video-image" placeholder="url da imagem de abertura"/>
+	</form>
+  </script>
+
   
   <!--TEXT-->
   <script id="template_text" type="text/template">
