@@ -51,6 +51,10 @@
 }
 .template{}
 
+.ctn > div.span4, .ctn > div.span8{
+    border:1px dotted #ccc;
+}
+
 /*=== TOOLS ===*/
 .tool{
 	position:absolute;
@@ -59,6 +63,9 @@
     right:-63px;
     opacity:.5;
 }
+    .bloco-container .tool{
+        right:-29px;
+    }
     .tool:hover{
         opacity:1;
     }

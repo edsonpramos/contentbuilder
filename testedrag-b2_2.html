@@ -45,8 +45,43 @@
   </script>
   
   
-  
-  
+  <!--CONTAINER-->
+  <script id="template_container" type="text/template">
+      <div class="row-fluid ctn">
+        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span8"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+      </div>
+      ##
+      <div class="row-fluid ctn">
+        <div class="span8"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+      </div>
+      ##
+      <div class="row-fluid ctn">
+        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+      </div>
+      ##
+      <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_delete">x</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="containerModal" class="form-inline">
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_1_2"> 1-2
+            </label>
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_2_1"> 2-1
+            </label>
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_3"> 3
+            </label>
+        </div>
+	</form>
+      
+  </script>
   
   <!--VIDEO-->
   <script id="template_video" type="text/template">
