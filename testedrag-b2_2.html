@@ -41,6 +41,7 @@
       opacity:.7,
 	  connectToSortable: "#miolo",
     });
+    CKEDITOR.disableAutoInline = true;
   });    
   </script>
   
@@ -48,29 +49,30 @@
   <!--CONTAINER-->
   <script id="template_container" type="text/template">
       <div class="row-fluid ctn">
-        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
-        <div class="span8"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span8"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
       </div>
       ##
       <div class="row-fluid ctn">
-        <div class="span8"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
-        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span8"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
       </div>
       ##
       <div class="row-fluid ctn">
-        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
-        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
-        <div class="span4"><div class="bloco  ui-sortable-handle">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
       </div>
       ##
       <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
         <div id="containerModal" class="form-inline">
             <label class="checkbox">
-                <input type="radio" name="container" value="ctn_1_2"> 1-2
+                <input type="radio" name="container" value="ctn_1_2" checked="checked"> 1-2
             </label>
             <label class="checkbox">
                 <input type="radio" name="container" value="ctn_2_1"> 2-1
@@ -126,14 +128,15 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
-        <textarea id="video-sources" placeholder="url dos vídeos"></textarea>
+        <textarea id="video-sources" placeholder="url dos vídeos" class="span6"></textarea>
         <span class="help-block">Use: url,label,default; ...</span>
-        <input type="text" id="video-captions" placeholder="url da legenda"/>
-        <input type="text" id="video-chapters" placeholder="url dos capítulos"/>
-        <input type="text" id="video-image" placeholder="url da imagem de abertura"/>
+        <input type="text" id="video-captions" placeholder="url da legenda" class="span6"/>
+        <input type="text" id="video-chapters" placeholder="url dos capítulos" class="span6"/>
+        <input type="text" id="video-image" placeholder="url da imagem de abertura" class="span6"/>
 	</form>
   </script>
 
@@ -143,6 +146,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -158,6 +162,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -200,6 +205,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -242,6 +248,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -268,6 +275,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -296,6 +304,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -344,6 +353,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -366,12 +376,13 @@
     <li><a href="#pane_{{childId}}" data-toggle="tab">Home</a></li>
 	## 
 	<div class="tab-pane" id="pane_{{childId}}">
-      <div class="bloco"></div>
+      <div class="bloco ui-sortable-handle anchor"></div>
     </div>
     ##
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -396,7 +407,7 @@
 		</div>
 		<div id="collapse_{{childId}}" class="accordion-body collapse">
             <div class="accordion-inner">
-                <div class="bloco"></div>
+                <div class="bloco ui-sortable-handle anchor"></div>
             </div>
 		</div>
     </div>
@@ -404,6 +415,7 @@
     <ul class="tool hide" data-target="{{id}}">
 		<li class="bt_edit">/</li>
 		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
 	</ul>
     ##
     <form class="formtomodal">
@@ -437,11 +449,9 @@
     
 </head>
 <body>
-<a href="#miolo" class="sr-only sr-only-focusable">Skip to main content</a>
+<!--<a href="#miolo" class="sr-only sr-only-focusable">Skip to main content</a>-->
 	<div id="miolo">
-		<div class="bloco"><p>Aliquam dui neque, dignissim sit amet aliquet at, tincidunt id nisi. Etiam vehicula, turpis eu hendrerit pretium, justo erat sagittis tortor, a tincidunt magna metus et mi. Ut id accumsan magna. Fusce eu eros vel mauris auctor imperdiet non in tellus. Vivamus nulla ante, aliquet et tempus sed, convallis a arcu. Cras id sem mi. Praesent sed sapien neque, ut consectetur mi.</p></div>
-		<div class="bloco"><p>Aenean nec tellus nec neque feugiat volutpat eu sit amet elit. Proin mattis pulvinar ante, a fringilla urna placerat a. Praesent magna nunc, pharetra in venenatis et, faucibus consequat nulla. Nunc sit amet mi sit amet urna lobortis facilisis quis id risus. Morbi vestibulum, ipsum scelerisque pellentesque hendrerit, eros nunc bibendum eros, vel lacinia turpis turpis ut orci. Praesent faucibus urna eu enim egestas et imperdiet odio semper. Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p></div>
-		<div class="bloco"><p>Integer mattis volutpat condimentum. Vivamus pharetra, quam et auctor tempor, leo mi placerat magna, ut dapibus dui dui convallis mi. Vestibulum semper elit quis tellus ultrices ac cursus erat volutpat. Suspendisse sem erat, semper sed fringilla id, bibendum at risus. Morbi justo ligula, egestas vel feugiat a, luctus at eros. </p></div>
+		<div class="bloco ui-sortable-handle anchor">&nbsp;</div>
 	</div>
 	<div id="templates">
 	  <div class="scroll">

@@ -29,8 +29,10 @@ var templates = {
 
             template = $(templates.accordion.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             
-           //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#accordionModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            //limpa o html que veio do modal
+            content = templates.utils.regex.cleanCode($('#accordionModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
            
             content.each(function(i){
                 //inicia novo child ou o finaliza
@@ -82,11 +84,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -123,7 +124,9 @@ var templates = {
             template_pane = template.eq(1);
             
             //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#tabModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#tabModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
         
             content.each(function(i){
                 //inicia novo child ou o finaliza
@@ -179,11 +182,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -218,7 +220,9 @@ var templates = {
             template = $(templates.carousel.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             
            //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#carouselModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#carouselModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
            
             content.each(function(i){
                 //inicia novo child ou o finaliza
@@ -274,11 +278,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+                        
             return tools;
         },
     },
@@ -307,7 +310,9 @@ var templates = {
             var content, tool, table, caption;
 
            //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#tableModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#tableModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
             
             for(var x=0;x<content.length;x++){
                 
@@ -339,6 +344,9 @@ var templates = {
                     tool = templates.table.defineTools(template_id);
                     templates.utils.appendAll('table',[table,tool],ui,template_id);
                 };
+            }else{
+                ui.helper.remove();
+                console.log('Este template precisa conter uma tabela');
             }
             
             function setWidths(table,widths){
@@ -425,11 +433,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },  
@@ -453,32 +460,35 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do box', templates.box.properties.template_modal, templates.box.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var box, tool;
+            var content, tool;
 
            //limpa o html que veio do modal
-            box = $('<div id="box_'+template_id+'">'+templates.utils.regex.cleanCode($('#boxModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><')+'</div>');
+            content = templates.utils.regex.cleanCode($('#boxModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = templates.utils.regex.checkTagLess(content);
+            content = $('<div id="box_'+template_id+'">'+ content + '</div>');
             
-            box = setClasses(box);
+            content = setClasses(content);
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
                 $('#bloco_'+template_id).children().not('.tool').remove();
-                $('#bloco_'+template_id).append(box);
+                $('#bloco_'+template_id).append(content);
             }else{
                 tool = templates.box.defineTools(template_id);
-                templates.utils.appendAll('box',[box,tool],ui,template_id);
+                templates.utils.appendAll('box',[content,tool],ui,template_id);
             };
             
-            function setClasses(box){
+            function setClasses(content){
                 var checkeds = $('#boxModalClasses').find('input:checked');
                 
                 if(checkeds.length > 0){
                     for(var x = 0; x < checkeds.length; x++){
-                         box.addClass(checkeds.eq(x).val());
+                         content.addClass(checkeds.eq(x).val());
                     }
                 }
                 
-                return box;
+                return content;
             }
         },
         defineTools:function(template_id){
@@ -508,11 +518,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -544,7 +553,9 @@ var templates = {
             template = setClasses(template);
 
            //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#pictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#pictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
             
             content.each(function(i){
                 //busca token >>
@@ -604,11 +615,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -641,7 +651,9 @@ var templates = {
             content_text.push(setClasses(template));
             
            //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#textpictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#textpictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
             
             content.each(function(i){
                 //busca token >>
@@ -710,11 +722,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -747,7 +758,9 @@ var templates = {
             content_text.push(setClasses(template));
             
            //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#texteyeModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            content = templates.utils.regex.cleanCode($('#texteyeModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se conteúdo veio sem tag
+            content = $(templates.utils.regex.checkTagLess(content));
             
             content.each(function(i){
                 //busca token >>
@@ -813,11 +826,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -843,8 +855,10 @@ var templates = {
         mergeContent:function(template_id,ui){
             var content, tool;
             
-           //limpa o html que veio do modal
-            content = $(templates.utils.regex.cleanCode($('#textModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+            //limpa o html que veio do modal
+            content = templates.utils.regex.cleanCode($('#textModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
+            //checa se existe tag
+            content = $(templates.utils.regex.checkTagLess(content));
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
@@ -873,11 +887,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -969,11 +982,10 @@ var templates = {
                     return template_modal;
                 }
             });
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -1020,11 +1032,10 @@ var templates = {
         },
         defineTools:function(template_id){
             var tools = $(templates.container.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
-            //DELETE
-            tools.children('.bt_delete:eq(0)').click(function(){
-                var template_id = $(this).parent().data('target');
-                $('#bloco_'+template_id).remove();
-            });
+            
+            templates.utils.setDeleteButton(tools);
+            templates.utils.setMoveUpButton(tools);
+            
             return tools;
         },
     },
@@ -1045,7 +1056,28 @@ var templates = {
             ui.helper.remove();
         },
         attachInlineEditor:function(){
-        
+            $('#modal').find('.modal-body').eq(0).find('.editable').each(function(i){
+                if(typeof($(this).attr('id')) != "undefined"){
+                    var id = $(this).attr('id');
+                    var editor = CKEDITOR.instances[id];
+                    
+                    if(typeof(editor) == "undefined"){
+                        CKEDITOR.inline(document.getElementById(id));
+                    }else{
+                        $('#cke_'+id).css({
+                            top: ($(this).offset().top - parseInt($('#cke_'+id).height())) + 'px',
+                            left: $(this).offset().left + 'px',
+                        }).addClass('cke_visible');
+                    }
+                }
+            });
+        },
+        dettachInlineEditor:function(){
+            $('#modal').find('.modal-body').eq(0).find('.editable').each(function(i){
+                if( $('#cke_'+$(this).attr('id')).size() > 0){
+                    $('#cke_'+$(this).attr('id')).removeClass('cke_visible');
+                }
+            });
         },
         getUid:function() {
             var s4 = new Array(8);
@@ -1082,6 +1114,12 @@ var templates = {
                 $('#modal').modal({
                     backdrop:'static',
                     keyboard:false,
+                    
+                });
+                
+                $('#modal').on({
+                    'shown' : templates.utils.attachInlineEditor,
+                    'hidden' : templates.utils.dettachInlineEditor,
                 });
             },
         },
@@ -1106,6 +1144,29 @@ var templates = {
                 }
                 return str;
             },
+            checkTagLess : function(str){
+                //se a string não estiver dentro de uma tag, insere.
+                //Exceto os tokens >>
+                var tagExists = /<[^>]*>.*<\/[^>]*>/;
+                //var token = /^(\s)*>>/;
+                if(!tagExists.test(str)){
+                      str = '<div>'+str+'</div>';
+                }
+                return str;
+            },
+        },
+        setDeleteButton : function(tools){
+            tools.children('.bt_delete:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                $('#bloco_'+template_id).remove();
+            });
+        },
+        setMoveUpButton : function(tools){
+            tools.children('.bt_moveup:eq(0)').click(function(){
+                var template_id = $(this).parent().data('target');
+                var bloco = $('#bloco_'+template_id);
+                if(bloco.prev().size() > 0) bloco.insertBefore(bloco.prev());
+            });
         },
     },
   };

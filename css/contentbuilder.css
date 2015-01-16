@@ -4,6 +4,14 @@
 	width:1024px;
 	margin:25px auto 25px 25px;
 }
+
+.anchor{
+    border-top:1px dashed #99E5FF;
+}
+
+.noborder{
+    border:none;
+}
  
 #templates{
 	position:fixed;
@@ -106,7 +114,13 @@
     .tool .bt_edit{
         background-position: -88px -4px
     }
+    .tool .bt_moveup{
+        background-position: -168px -4px;
+    }
     
+    .tool .disable_tool{
+        background-position-y: -34px;
+    }
 
 /*Accordion*/
 .tool-accordion{
@@ -123,3 +137,9 @@
 }
 /*FORM*/
 .form-inline label{margin-right:20px;}
+
+/*CKEDITOR*/
+ .cke_visible{
+    position:absolute !important;
+    display:block !important;
+}
