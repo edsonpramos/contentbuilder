@@ -42,6 +42,7 @@
 	  connectToSortable: "#miolo",
     });
     CKEDITOR.disableAutoInline = true;
+    CKEDITOR.config.startupFocus = true;
   });    
   </script>
   
@@ -281,11 +282,17 @@
     <form class="formtomodal">
         <div id="boxModalContent" contenteditable="true" class="likeTextarea editable"></div>
         <span id="boxModalClasses" class="form-inline">
-            <label class="checkbox">
-                <input id="boxModal_box-destaque" type="checkbox" value="box-destaque"> destaque
+            <label class="checkbox_group">
+                Tipo:
             </label>
             <label class="checkbox">
-                <input id="boxModal_box-dica" type="checkbox" value="box-dica"> dica
+                <input id="boxModal_box-destaque" name="tipobox" type="radio" value="box-destaque" checked="checked"> destaque
+            </label>
+            <label class="checkbox">
+                <input id="boxModal_box-dica" name="tipobox" type="radio" value="box-dica"> dica
+            </label>
+            <label class="checkbox_group">
+                Opções:
             </label>
             <label class="checkbox">
                 <input id="boxModal_linkexterno" type="checkbox" value="linkexterno"> linkexterno

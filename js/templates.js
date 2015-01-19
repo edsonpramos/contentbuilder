@@ -41,7 +41,7 @@ var templates = {
                     child_id = templates.utils.getUid();
                     child = $(templates.accordion.properties.template_child.replace(/(\{\{id\}\})/g,template_id).replace(/(\{\{childId\}\})/g,child_id));
                     //insere texto do head
-                    child.find('.accordion-toggle').eq(0).html($(this).html());
+                    child.find('.accordion-toggle').eq(0).html($(this).html().toString());
                 }else{
                     if(typeof(child) != "undefined"){//enquanto não achar o primeiro token ">>", child será undefined
                         //insere texto do body
@@ -50,6 +50,9 @@ var templates = {
                     }
                 }
             });
+            
+            //acerta o "collapse in"
+            template.find('.accordion-body').eq(0).addClass('in');
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
@@ -243,6 +246,10 @@ var templates = {
                     }
                 }
             });
+            
+            //define o active
+            template.find('.carousel-indicators').eq(0).children().eq(0).addClass('active');
+            template.find('.carousel-inner').eq(0).children().eq(0).addClass('active');
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
@@ -1054,6 +1061,8 @@ var templates = {
             
             ui.helper.after(block);
             ui.helper.remove();
+            
+            templates.utils.checkActive(template_name,template_id);
         },
         attachInlineEditor:function(){
             $('#modal').find('.modal-body').eq(0).find('.editable').each(function(i){
@@ -1061,21 +1070,31 @@ var templates = {
                     var id = $(this).attr('id');
                     var editor = CKEDITOR.instances[id];
                     
-                    if(typeof(editor) == "undefined"){
-                        CKEDITOR.inline(document.getElementById(id));
-                    }else{
-                        $('#cke_'+id).css({
-                            top: ($(this).offset().top - parseInt($('#cke_'+id).height())) + 'px',
-                            left: $(this).offset().left + 'px',
-                        }).addClass('cke_visible');
+                    if(editor){
+                       editor.removeAllListeners();
+                       CKEDITOR.remove(editor);
+                       $('#cke_'+id).remove();
                     }
+                    CKEDITOR.inline(document.getElementById(id));
                 }
             });
         },
+        checkActive:function(template_name,template_id){
+            if(template_name == "tab"){
+                $('#tab_'+template_id+' a:first').tab('show');
+            }
+        },
         dettachInlineEditor:function(){
             $('#modal').find('.modal-body').eq(0).find('.editable').each(function(i){
-                if( $('#cke_'+$(this).attr('id')).size() > 0){
-                    $('#cke_'+$(this).attr('id')).removeClass('cke_visible');
+                 if(typeof($(this).attr('id')) != "undefined"){
+                    var id = $(this).attr('id');
+                    var editor = CKEDITOR.instances[id];
+                    
+                    if(editor){
+                        editor.removeAllListeners();
+                        CKEDITOR.remove(editor);
+                        $('#cke_'+id).remove();
+                    }
                 }
             });
         },
@@ -1095,6 +1114,11 @@ var templates = {
             checkIfModalIsAppended:function(ui){
                 if($('#modal').size() == 0){
                     $('body').append($('#template_modal').html());
+                    
+                    $('#modal').on({
+                        'shown' : templates.utils.attachInlineEditor,
+                        'hidden' : templates.utils.dettachInlineEditor,
+                    });
                 }
             },
             openModal:function(modal_label, template_modal, sendContent, id, ui){
@@ -1114,12 +1138,6 @@ var templates = {
                 $('#modal').modal({
                     backdrop:'static',
                     keyboard:false,
-                    
-                });
-                
-                $('#modal').on({
-                    'shown' : templates.utils.attachInlineEditor,
-                    'hidden' : templates.utils.dettachInlineEditor,
                 });
             },
         },
@@ -1128,12 +1146,12 @@ var templates = {
             op : /<o:p>.*<\/o:p>/gi,
             popen : /<p[^>]*>/gi,
             pclose : /<\/p>/gi,
-            pstyle : / style="[^>]*"/gi,
+            pstyle : / style="[^"]*"/gi,
             spanopen : /<span[^>]*>/gi,
             spanclose : /<\/span>/gi,
             msoClass : / class="MsoNormal"/gi,
-            tableHeader : / class="MsoTableGrid[^>]*"/gi,
-            tableCel : / width="[^>]*"/gi,
+            tableHeader : / class="MsoTableGrid[^"]*"/gi,
+            tableCel : / width="[^"]*"/gi,
             tableBorder: /border="[^"]*"/,
             tableSpacing : /cellspacing="[^"]*"/,
             tablePadding : /cellpadding="[^"]*"/,

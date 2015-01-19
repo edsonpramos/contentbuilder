@@ -134,7 +134,14 @@
     line-height:120%;
 }
 /*FORM*/
-.form-inline label{margin-right:20px;}
+.form-inline label{margin-right:20px; vertical-align:text-top;}
+.form-inline label.checkbox_group{
+    margin-right: 10px;
+    font-style: italic;
+}
+.form-inline input{
+    vertical-align:text-top;
+}
 
 /*CKEDITOR*/
  .cke_visible{
