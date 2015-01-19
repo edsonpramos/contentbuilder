@@ -9,10 +9,7 @@
     border-top:1px dashed #99E5FF;
 }
 
-.noborder{
-    border:none;
-}
- 
+
 #templates{
 	position:fixed;
 	right:0;
@@ -71,8 +68,9 @@
     right:-63px;
     opacity:.5;
 }
-    .bloco-container .tool{
-        right:-29px;
+    .bloco-container > .tool{
+        right:0;
+        left:-50px;
     }
     .tool:hover{
         opacity:1;

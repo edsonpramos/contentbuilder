@@ -98,6 +98,7 @@ th, td {
 }
 
 /*BOX*/
+.box-imagem{margin-bottom:20px;}
 .box-imagem img{border:1px solid #ccc; margin:0 !important;}
 .box-imagem label{color:#999; font-weight:bold; font-style:italic;}
 
@@ -139,11 +140,22 @@ th, td {
 	background-position:10px center;
 }
 
+.noborder, .noborder img{
+    border:none;
+}
+
 .miolo .pull-right{ margin-left:2.3% !important; margin-right:0 !important;}
 .miolo .pull-left{ margin-right:2.3% !important; margin-left:0 !important;}
 .miolo ul ul{list-style:circle;}
 .miolo .clearfix{
 	clear:both;
+}
+
+/*VIDEO*/
+#miolo .jwplayer{
+    width:100% !important;
+    max-width: 500px;
+    margin:0 auto;
 }
 
 /*videoaula*/

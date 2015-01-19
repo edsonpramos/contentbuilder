@@ -345,7 +345,7 @@ var templates = {
                     templates.utils.appendAll('table',[table,tool],ui,template_id);
                 };
             }else{
-                ui.helper.remove();
+                if(typeof(ui.helper) != "undefined")ui.helper.remove();
                 console.log('Este template precisa conter uma tabela');
             }
             
@@ -1107,7 +1107,7 @@ var templates = {
                     $('#modal').modal('hide');
                 });
                 $('#modalCancel').unbind('click').bind('click',function(){
-                    ui.helper.remove();
+                    if(typeof(ui.helper) != "undefined")ui.helper.remove();
                     $('#modal').modal('hide');
                 });
                 
@@ -1135,23 +1135,31 @@ var templates = {
             tableHeader : / class="MsoTableGrid[^>]*"/gi,
             tableCel : / width="[^>]*"/gi,
             tableBorder: /border="[^"]*"/,
+            tableSpacing : /cellspacing="[^"]*"/,
+            tablePadding : /cellpadding="[^"]*"/,
             codeopen : /<code[^>]*>/gi,
             codeclose : /<\/code>/gi,
-            wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle','tableBorder'],
+            //wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle','tableBorder'],
+            wordTrash : ['tableCel','pstyle','tableBorder','tableSpacing','tablePadding'],
             cleanCode : function(str,regexlist){
+                var regex_table = /<table/gi;
+                
                 for( item in regexlist){
                     str = str.replace(templates.utils.regex[regexlist[item]],"");
                 }
-                return str;
+                
+                return str.replace(regex_table,'<table class="table"');
             },
             checkTagLess : function(str){
                 //se a string não estiver dentro de uma tag, insere.
                 //Exceto os tokens >>
-                var tagExists = /<[^>]*>.*<\/[^>]*>/;
+               /*
+               var tagExists = /<[^>]*>.*<\/[^>]*>/;
                 //var token = /^(\s)*>>/;
                 if(!tagExists.test(str)){
                       str = '<div>'+str+'</div>';
-                }
+                }*/
+                
                 return str;
             },
         },
