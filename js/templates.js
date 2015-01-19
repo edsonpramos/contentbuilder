@@ -405,6 +405,7 @@ var templates = {
                     var regex = /span[^\s]*/;
                     var regex2 = /class\s?="[^"]*span[^"]*"/;
                     
+                    //para pegar as larguras definidas pra cada coluna
                     if(regex2.test(tr.html().toString())){
                         for (var x = 0; x < cels.length; x++){
                             tdClasses = cels.eq(x).attr('class');
@@ -427,13 +428,14 @@ var templates = {
                     
                     template_modal.find('#tableModalWidhts').eq(0).val(widths);
                     
+                    //marca os checkboxes dos estilos usados
                     for(x = 0; x < tableClasses.length; x++){
                         input = template_modal.find('#tableModal_'+tableClasses[x]);
                         if(input.size() > 0){
                             input.attr('checked','checked');
                         }
                     }
-                    table.removeAttr('class').removeAttr('id').attr('border','1');
+                    table.removeAttr('class').removeAttr('id').addClass('table');
                     
                     template_modal.find('.editable').eq(0).html(table);
                     
