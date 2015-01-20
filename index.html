@@ -46,8 +46,12 @@
         templates.controlers.btn_html_tocopy.init();
     });
     
-    $('#btn-html-view').click(function(){
-        templates.controlers.html_save.init();
+    $('#btn-html-save').click(function(){
+        templates.controlers.btn_html_save.init();
+    });
+    
+    $('#btn-html-grid').click(function(){
+        templates.controlers.btn_html_grid.init();
     });
     
     CKEDITOR.disableAutoInline = true;
@@ -488,6 +492,7 @@
       <div id="controlers">
         <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> HTML</a>
         <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
+        <a class="btn" href="javascript:void(0)" id="btn-html-grid"><i class="icon-eye-close"></i> Grid</a>
 	  </div>
 	</div> 
  </body>
