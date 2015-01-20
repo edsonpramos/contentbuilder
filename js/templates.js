@@ -25,7 +25,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do Accordion', templates.accordion.properties.template_modal, templates.accordion.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var child_id, template, child, tool, content;
+            var child_id, template, child, tool, content, textarea, templateBlock;
 
             template = $(templates.accordion.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             
@@ -44,8 +44,16 @@ var templates = {
                     child.find('.accordion-toggle').eq(0).html($(this).html().toString());
                 }else{
                     if(typeof(child) != "undefined"){//enquanto não achar o primeiro token ">>", child será undefined
-                        //insere texto do body
-                        child.find('.bloco').eq(0).append($(this));
+                        textarea = $(this).find('textarea');
+                        //este conteúdo é um outro template?
+                        if(textarea.size() > 0){
+                            templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
+                            child.find('.accordion-inner').eq(0).append(templateBlock);
+                            templates.utils.blockMouseHandler(templateBlock);
+                            templates.utils.rebindTools(templateBlock);
+                        }else{
+                            child.find('.toappend').eq(0).append($(this));
+                        }
                         template.append(child);
                     }
                 }
@@ -59,12 +67,12 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(template);
             }else{
-                tool = templates.accordion.defineTools(template_id);
+                tool = templates.accordion.defineTools(template_id,"");
                 templates.utils.appendAll('accordion',[template,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.accordion.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.accordion.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -76,9 +84,10 @@ var templates = {
                     var content = "";
                     var itens = $('#accordion_'+template_id).children();
                     
+                    //pega o conteúdo de cada aba do accordion
                     for (var x = 0; x < itens.length; x++){
                        content += ("<p>&gt;&gt;"+itens.eq(x).find('.accordion-toggle').eq(0).html().toString()+"</p>");
-                       content += itens.eq(x).find('.bloco').eq(0).html().toString();
+                       content += wrapTemplateBlocks(itens.eq(x).find('.accordion-inner').eq(0).clone());
                     }
                     
                     var template_modal = $(templates.accordion.properties.template_modal);
@@ -86,12 +95,36 @@ var templates = {
                     
                     return template_modal;
                 }
+                
+                function wrapTemplateBlocks(content){
+                    var child, childToStr, newContent, textarea;
+                    
+                    newContent = $("<code></code>");
+                    
+                    content.children('.anchor').remove();
+                    
+                    for(var x = 0; x < content.children().length; x++){
+                        child = content.children().eq(x);
+                        
+                        //é bloco de outro template?
+                        if(child.attr('class').indexOf('bloco-') != -1){
+                            textarea = $('<textarea contenteditable="false"></textarea>');
+                            textarea.append(child);
+                            newContent.append(textarea);
+                        }else{
+                            newContent.append(child.html());
+                        }
+                    }
+                    return newContent.html().toString();
+                }
             });
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= TAB ==========================================
@@ -120,7 +153,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do tab', templates.tab.properties.template_modal, templates.tab.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var child_id, template_nav, template_pane, child_nav, child_pane, tool, pos, content;
+            var child_id, template_nav, template_pane, child_nav, child_pane, tool, pos, content, textarea, templateBlock;
 
             template = $(templates.tab.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             template_nav = template.eq(0);
@@ -144,8 +177,17 @@ var templates = {
                     template_nav.append(child_nav);
                     template_pane.append(child_pane);
                 }else{
-                     //insere texto do body
-                     template_pane.find('.bloco').eq(pos).append($(this));
+                    //insere texto do body
+                    textarea = $(this).find('textarea');
+                    //este conteúdo é um outro template?
+                    if(textarea.size() > 0){
+                        templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
+                        template_pane.find('.toappend').eq(pos).append(templateBlock);
+                        templates.utils.blockMouseHandler(templateBlock);
+                        templates.utils.rebindTools(templateBlock);
+                    }else{
+                        template_pane.find('.toappend').eq(pos).append($(this));
+                    }
                 }
             });
             
@@ -154,12 +196,12 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append([template_nav,template_pane]);
             }else{
-                tool = templates.tab.defineTools(template_id);
+                tool = templates.tab.defineTools(template_id,"");
                 templates.utils.appendAll('tab',[template_nav,template_pane,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.tab.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.tab.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -189,7 +231,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= CAROUSEL ==========================================
@@ -256,12 +300,12 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(template);
             }else{
-                tool = templates.carousel.defineTools(template_id);
+                tool = templates.carousel.defineTools(template_id,"");
                 templates.utils.appendAll('carousel',[template,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.carousel.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.carousel.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -289,7 +333,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
                         
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= TABLE ==========================================
@@ -348,7 +394,7 @@ var templates = {
                     $('#bloco_'+template_id).children().not('.tool').remove();
                     $('#bloco_'+template_id).append(table);
                 }else{
-                    tool = templates.table.defineTools(template_id);
+                    tool = templates.table.defineTools(template_id,"");
                     templates.utils.appendAll('table',[table,tool],ui,template_id);
                 };
             }else{
@@ -385,8 +431,8 @@ var templates = {
                 return table;
             }
         },
-        defineTools:function(template_id){
-            var tools = $(templates.table.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.table.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -446,7 +492,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },  
     //========================================= BOX ==========================================
@@ -484,7 +532,7 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(content);
             }else{
-                tool = templates.box.defineTools(template_id);
+                tool = templates.box.defineTools(template_id,"");
                 templates.utils.appendAll('box',[content,tool],ui,template_id);
             };
             
@@ -500,8 +548,8 @@ var templates = {
                 return content;
             }
         },
-        defineTools:function(template_id){
-            var tools = $(templates.box.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.box.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -531,7 +579,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= pict ==========================================
@@ -580,7 +630,7 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(template);
             }else{
-                tool = templates.pict.defineTools(template_id);
+                tool = templates.pict.defineTools(template_id,"");
                 templates.utils.appendAll('pict',[template,tool],ui,template_id);
             };
             
@@ -596,8 +646,8 @@ var templates = {
                 return template;
             }
         },
-        defineTools:function(template_id){
-            var tools = $(templates.pict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.pict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -628,7 +678,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= TEXTPICT ==========================================
@@ -686,7 +738,7 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(content_text);
             }else{
-                tool = templates.textpict.defineTools(template_id);
+                tool = templates.textpict.defineTools(template_id,"");
                 content_text.push(tool);
                 templates.utils.appendAll('textpict',content_text,ui,template_id);
             };
@@ -703,8 +755,8 @@ var templates = {
                 return template;
             }
         },
-        defineTools:function(template_id){
-            var tools = $(templates.textpict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.textpict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -735,7 +787,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= TEXTEYE ==========================================
@@ -790,7 +844,7 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(content_text);
             }else{
-                tool = templates.texteye.defineTools(template_id);
+                tool = templates.texteye.defineTools(template_id,"");
                 content_text.push(tool);
                 templates.utils.appendAll('texteye',content_text,ui,template_id);
             };
@@ -807,8 +861,8 @@ var templates = {
                 return template;
             }
         },
-        defineTools:function(template_id){
-            var tools = $(templates.texteye.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.texteye.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -839,7 +893,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= TEXT ==========================================
@@ -874,12 +930,13 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(content);
             }else{
-                tool = templates.text.defineTools(template_id);
+                tool = templates.text.defineTools(template_id,"");
                 templates.utils.appendAll('text',[content,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.text.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.text.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -900,7 +957,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= video ==========================================
@@ -962,12 +1021,12 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append([video,script,hiddenform]);
             }else{
-                tool = templates.video.defineTools(template_id);
+                tool = templates.video.defineTools(template_id,"");
                 templates.utils.appendAll('video',[video,script,hiddenform,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.video.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.video.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -995,7 +1054,9 @@ var templates = {
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= CONTAINER ==========================================
@@ -1035,17 +1096,19 @@ var templates = {
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(ctn);
             }else{
-                tool = templates.container.defineTools(template_id);
+                tool = templates.container.defineTools(template_id,"");
                 templates.utils.appendAll('container',[ctn,tool],ui,template_id);
             };
         },
-        defineTools:function(template_id){
-            var tools = $(templates.container.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+        defineTools:function(template_id,bloco_rebind){
+            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.container.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
             
-            return tools;
+            if(bloco_rebind == ""){
+                return tools;
+            }
         },
     },
     //========================================= UTILS ==========================================
@@ -1055,11 +1118,7 @@ var templates = {
             var block = $('<div id="bloco_'+template_id+'" class="bloco '+block_name+' ui-sortable-handle"></div>');
             
             block.append(elements);
-            block.mouseover(function(e){
-                $(this).children('ul.tool:eq(0)').removeClass('hide');
-            }).mouseout(function(e){
-                $(this).children('ul.tool:eq(0)').addClass('hide');
-            });
+            templates.utils.blockMouseHandler(block);
             
             ui.helper.after(block);
             ui.helper.remove();
@@ -1079,6 +1138,13 @@ var templates = {
                     }
                     CKEDITOR.inline(document.getElementById(id));
                 }
+            });
+        },
+        blockMouseHandler : function(block){
+            block.mouseover(function(e){
+                $(this).children('ul.tool:eq(0)').removeClass('hide');
+            }).mouseout(function(e){
+                $(this).children('ul.tool:eq(0)').addClass('hide');
             });
         },
         checkActive:function(template_name,template_id){
@@ -1113,7 +1179,7 @@ var templates = {
                     modal_body.children().remove();
                     modal_body.append(template_modal);
             },
-            checkIfModalIsAppended:function(ui){
+            checkIfModalIsAppended:function(){
                 if($('#modal').size() == 0){
                     $('body').append($('#template_modal').html());
                     
@@ -1124,14 +1190,20 @@ var templates = {
                 }
             },
             openModal:function(modal_label, template_modal, sendContent, id, ui){
-                templates.utils.modal.checkIfModalIsAppended(ui);
+                templates.utils.modal.checkIfModalIsAppended();
                 templates.utils.modal.appendModalBody(template_modal);
                 
                 $('#modalLabel').html(modal_label);
-                $('#modalButton').unbind('click').bind('click',function(){
-                    sendContent(id,ui);
-                    $('#modal').modal('hide');
-                });
+                
+                //undefined se vier do controler html-tocopy
+                if(typeof(sendContent) == "function"){
+                    $('#modalButton').show().unbind('click').bind('click',function(){
+                        sendContent(id,ui);
+                        $('#modal').modal('hide');
+                    });
+                }else{
+                    $('#modalButton').hide();
+                }
                 $('#modalCancel').unbind('click').bind('click',function(){
                     if(typeof(ui.helper) != "undefined")ui.helper.remove();
                     $('#modal').modal('hide');
@@ -1143,7 +1215,18 @@ var templates = {
                 });
             },
         },
+        rebindTools:function(block){
+            var template_name, template_id;
+            template_name = templates.utils.regex.findTemplate.exec(block.attr('class'));
+            template_name = template_name.toString().split('-')[1];
+            template_id = block.attr('id').split('_')[1];
+            
+            templates[template_name].defineTools(template_id,block);
+        },
         regex:{
+            allGt : /&gt;/gi,
+            allLt : /&lt;/gi,
+            findTemplate : /bloco-[^\s]*/,
             gt : /&gt;&gt;/,
             op : /<o:p>.*<\/o:p>/gi,
             popen : /<p[^>]*>/gi,
@@ -1195,6 +1278,22 @@ var templates = {
                 var bloco = $('#bloco_'+template_id);
                 if(bloco.prev().size() > 0) bloco.insertBefore(bloco.prev());
             });
+        },
+    },
+    //========================================= CONTROLERS ==========================================
+    controlers:{
+        btn_html_tocopy : {
+            init : function(){
+                var code = $('#miolo').clone();
+                code.find('ul.tool').remove();
+                code.find('.anchor').remove();
+                code = $('<textarea class="html-tocopy"><div id="miolo">'+code.html().toString()+'</div></textarea>');
+                templates.utils.modal.openModal('Código HTML pronto para copiar/colar', code, '', '', '');
+            },
+        
+        },
+        btn_html_save : {
+            init : function(){},
         },
     },
   };

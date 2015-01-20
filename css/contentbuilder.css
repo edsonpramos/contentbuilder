@@ -10,7 +10,7 @@
 }
 
 
-#templates{
+#scroll{
 	position:fixed;
 	right:0;
 	width:100px;
@@ -19,11 +19,11 @@
 	background: #ddd;
 	transition: right 1s;
 }
-#templates .scroll{
+/*#templates{
 	width:100%;
 	height:100%;
 	overflow:auto;
-}
+}*/
 .fechado{ right:-120px;}
 
 .thumb {
@@ -40,6 +40,12 @@
 .drop-hover{
 	border-color:#aaa;
 }
+
+
+#controlers{
+    text-align:center;
+}
+#controlers .btn{ margin:10px 0}
 
 .ui-state-highlight {
 	border:1px dashed #ccc; background:none; min-height:20px;
@@ -65,12 +71,12 @@
 	position:absolute;
 	z-index:9000;
     top:0;
-    right:-63px;
+    right:0;
     opacity:.5;
 }
     .bloco-container > .tool{
-        right:0;
-        left:-50px;
+        right:auto;
+        left:0;
     }
     .tool:hover{
         opacity:1;
@@ -142,9 +148,25 @@
 .form-inline input{
     vertical-align:text-top;
 }
+textarea.html-tocopy{
+    width:100%;
+    height:400px;
+}
 
 /*CKEDITOR*/
  .cke_visible{
     position:absolute !important;
     display:block !important;
+}
+.cke_editable_inline textarea {
+    width: 97% !important;
+    background-color: #eee;
+    color: #aaa;
+    max-height: 50px;
+    font-size: .9em;
+    font-family: inherit;
+    font-style: italic;
+    overflow:hidden;
+    border:none;
+    box-shadow:none;
 }

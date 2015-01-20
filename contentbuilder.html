@@ -41,8 +41,18 @@
       opacity:.7,
 	  connectToSortable: "#miolo",
     });
+    
+    $('#btn-html-tocopy').click(function(){
+        templates.controlers.btn_html_tocopy.init();
+    });
+    
+    $('#btn-html-view').click(function(){
+        templates.controlers.html_save.init();
+    });
+    
     CKEDITOR.disableAutoInline = true;
     CKEDITOR.config.startupFocus = true;
+    CKEDITOR.config.extraAllowedContent = 'textarea';
   });    
   </script>
   
@@ -176,7 +186,7 @@
                 Alinhamento:
             </label>
             <label class="checkbox">
-                <input id="texteyeModal_pull-left" type="radio" name="texteye_align" value="pull-left"> left
+                <input id="texteyeModal_pull-left" type="radio" name="texteye_align" value="pull-left" checked="checked"> left
             </label>
             <label class="checkbox">
                 <input id="texteyeModal_pull-right" type="radio" name="texteye_align" value="pull-right"> right
@@ -185,7 +195,7 @@
                 Largura:
             </label>
             <label class="checkbox">
-                <input id="texteyeModal_span4" type="radio" name="texteye_width" value="span4"> 1col
+                <input id="texteyeModal_span4" type="radio" name="texteye_width" value="span4"  checked="checked"> 1col
             </label>
             <label class="checkbox">
                 <input id="texteyeModal_span8" type="radio" name="texteye_width" value="span8"> 2cols
@@ -216,7 +226,7 @@
                 Alinhamento:
             </label>
             <label class="checkbox">
-                <input id="textpictModal_pull-left" type="radio" name="textpict_align" value="pull-left"> left
+                <input id="textpictModal_pull-left" type="radio" name="textpict_align" value="pull-left"  checked="checked"> left
             </label>
             <label class="checkbox">
                 <input id="textpictModal_pull-right" type="radio" name="textpict_align" value="pull-right"> right
@@ -225,7 +235,7 @@
                 Largura:
             </label>
             <label class="checkbox">
-                <input id="textpictModal_span4" type="radio" name="textpict_width" value="span4"> 1col
+                <input id="textpictModal_span4" type="radio" name="textpict_width" value="span4"  checked="checked"> 1col
             </label>
             <label class="checkbox">
                 <input id="textpictModal_span8" type="radio" name="textpict_width" value="span8"> 2cols
@@ -252,14 +262,17 @@
             <label class="checkbox">
                 <input id="pictModal_noborder" type="checkbox" value="noborder"> noborder
             </label>
-            <label class="checkbox">
-                <input id="pictModal_span4" type="checkbox" value="span4"> 1col
+            <label class="checkbox_group">
+                Largura:
             </label>
             <label class="checkbox">
-                <input id="pictModal_span8" type="checkbox" value="span8"> 2cols
+                <input id="pictModal_span4" name="pict_width" type="radio" value="span4" checked="checked"> 1col
             </label>
             <label class="checkbox">
-                <input id="pictModal_span12" type="checkbox" value="span4"> 3cols
+                <input id="pictModal_span8" name="pict_width" type="radio" value="span8"> 2cols
+            </label>
+            <label class="checkbox">
+                <input id="pictModal_span12" name="pict_width" type="radio" value="span12"> 3cols
             </label>
         </span>
 	</form>
@@ -377,6 +390,7 @@
     <li><a href="#pane_{{childId}}" data-toggle="tab">Home</a></li>
 	## 
 	<div class="tab-pane" id="pane_{{childId}}">
+      <div class="bloco ui-sortable-handle toappend"></div>
       <div class="bloco ui-sortable-handle anchor"></div>
     </div>
     ##
@@ -408,6 +422,7 @@
 		</div>
 		<div id="collapse_{{childId}}" class="accordion-body collapse">
             <div class="accordion-inner">
+                <div class="bloco ui-sortable-handle toappend"></div>
                 <div class="bloco ui-sortable-handle anchor"></div>
             </div>
 		</div>
@@ -454,8 +469,9 @@
 	<div id="miolo">
 		<div class="bloco ui-sortable-handle anchor">&nbsp;</div>
 	</div>
-	<div id="templates">
-	  <div class="scroll">
+	
+	<div id="scroll">
+      <div id="templates">
         <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
 		<div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
         <div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
@@ -467,6 +483,11 @@
 		<div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
 		<div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
 		<div class="thumb" data-template="carousel"><img src="img/templates/carousel.png"/></div>
+      </div>
+        <hr/>
+      <div id="controlers">
+        <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> HTML</a>
+        <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
 	  </div>
 	</div> 
  </body>
