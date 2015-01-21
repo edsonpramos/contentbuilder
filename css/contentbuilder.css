@@ -4,6 +4,7 @@
 
 .anchor{
     border-top:1px dashed #99E5FF;
+    min-height:20px;
     /*height:1px;
     line-height:1px;
     font-size:0;

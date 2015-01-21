@@ -35,7 +35,7 @@ var templates = {
             content = $(templates.utils.regex.checkTagLess(content));
            
             content.each(function(i){
-                //inicia novo child ou o finaliza
+                //achou o token ">>" ?
                 if(templates.utils.regex.gt.test($(this).html().toString())){
                     $(this).html(templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));//limpa ">>"
                     child_id = templates.utils.getUid();
@@ -87,35 +87,13 @@ var templates = {
                     //pega o conteúdo de cada aba do accordion
                     for (var x = 0; x < itens.length; x++){
                        content += ("<p>&gt;&gt;"+itens.eq(x).find('.accordion-toggle').eq(0).html().toString()+"</p>");
-                       content += wrapTemplateBlocks(itens.eq(x).find('.accordion-inner').eq(0).clone());
+                       content += templates.utils.wrapTemplateBlocks(itens.eq(x).find('.accordion-inner').eq(0).clone());
                     }
                     
                     var template_modal = $(templates.accordion.properties.template_modal);
                        template_modal.find('.editable').eq(0).html(content);
                     
                     return template_modal;
-                }
-                
-                function wrapTemplateBlocks(content){
-                    var child, childToStr, newContent, textarea;
-                    
-                    newContent = $("<code></code>");
-                    
-                    content.children('.anchor').remove();
-                    
-                    for(var x = 0; x < content.children().length; x++){
-                        child = content.children().eq(x);
-                        
-                        //é bloco de outro template?
-                        if(child.attr('class').indexOf('bloco-') != -1){
-                            textarea = $('<textarea contenteditable="false"></textarea>');
-                            textarea.append(child);
-                            newContent.append(textarea);
-                        }else{
-                            newContent.append(child.html());
-                        }
-                    }
-                    return newContent.html().toString();
                 }
             });
             
@@ -153,7 +131,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do tab', templates.tab.properties.template_modal, templates.tab.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var child_id, template_nav, template_pane, child_nav, child_pane, tool, pos, content, textarea, templateBlock;
+            var child_id, template_nav, template_pane, child_nav, child_pane, tool, content, textarea, templateBlock, this_pane;
 
             template = $(templates.tab.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             template_nav = template.eq(0);
@@ -165,9 +143,8 @@ var templates = {
             content = $(templates.utils.regex.checkTagLess(content));
         
             content.each(function(i){
-                //inicia novo child ou o finaliza
+                //achou o token ">>" ?
                 if(templates.utils.regex.gt.test($(this).html().toString())){
-                    pos = (typeof(pos) != "undefined")? pos+1 : 0;
                     $(this).html(templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));//limpa ">>"
                     child_id = templates.utils.getUid();
                     child_nav  = $(templates.tab.properties.template_child_nav.replace(/(\{\{childId\}\})/g,child_id));
@@ -177,16 +154,19 @@ var templates = {
                     template_nav.append(child_nav);
                     template_pane.append(child_pane);
                 }else{
-                    //insere texto do body
-                    textarea = $(this).find('textarea');
-                    //este conteúdo é um outro template?
-                    if(textarea.size() > 0){
-                        templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
-                        template_pane.find('.toappend').eq(pos).append(templateBlock);
-                        templates.utils.blockMouseHandler(templateBlock);
-                        templates.utils.rebindTools(templateBlock);
-                    }else{
-                        template_pane.find('.toappend').eq(pos).append($(this));
+                    if(typeof(child_id) != "undefined"){
+                        //insere texto do body
+                        textarea = $(this).find('textarea');
+                        this_pane = template_pane.find('#pane_'+child_id).eq(0);
+                        //este conteúdo é um outro template?
+                        if(textarea.size() > 0){
+                            templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
+                            this_pane.append(templateBlock);
+                            templates.utils.blockMouseHandler(templateBlock);
+                            templates.utils.rebindTools(templateBlock);
+                        }else{
+                            this_pane.children('.toappend').append($(this));
+                        }
                     }
                 }
             });
@@ -195,6 +175,7 @@ var templates = {
             if($('#bloco_'+template_id).size() > 0){
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append([template_nav,template_pane]);
+                templates.utils.checkActive('tab',template_id);
             }else{
                 tool = templates.tab.defineTools(template_id,"");
                 templates.utils.appendAll('tab',[template_nav,template_pane,tool],ui,template_id);
@@ -211,14 +192,14 @@ var templates = {
                 
                 function getAppendedContent(template_id){
                     var content = "";
-                    var itens_nav = $('#tab_'+template_id).children();
+                    var itens_nav = $('#tab_'+template_id).children();//filhos de ul.nav
                     var pane_anchor, pane;
                     
                     for (var x = 0; x < itens_nav.length; x++){
-                       pane_anchor = itens_nav.eq(x).children().eq(0);
-                       pane = $(pane_anchor.attr('href'));
+                       pane_anchor = itens_nav.eq(x).children().eq(0);//tag <a>
+                       pane = $(pane_anchor.attr('href'));//tag div#idrespectivo.tab-pane
                        content += ("<p>&gt;&gt;"+pane_anchor.html().toString()+"</p>");
-                       content += pane.find('.bloco').eq(0).html().toString();
+                       content += templates.utils.wrapTemplateBlocks(pane.clone());
                     }
                     
                     var template_modal = $(templates.tab.properties.template_modal);
@@ -272,7 +253,7 @@ var templates = {
             content = $(templates.utils.regex.checkTagLess(content));
            
             content.each(function(i){
-                //inicia novo child ou o finaliza
+                //achou o token ">>" ?
                 if(templates.utils.regex.gt.test($(this).html().toString())){
                     idx = (typeof(idx) != "undefined")? idx+1 : 0;
                     $(this).html(templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));//limpa ">>"
@@ -531,6 +512,7 @@ var templates = {
             if($('#bloco_'+template_id).size() > 0){
                 $('#bloco_'+template_id).children().not('.tool').remove();
                 $('#bloco_'+template_id).append(content);
+                
             }else{
                 tool = templates.box.defineTools(template_id,"");
                 templates.utils.appendAll('box',[content,tool],ui,template_id);
@@ -1278,6 +1260,27 @@ var templates = {
                 var bloco = $('#bloco_'+template_id);
                 if(bloco.prev().size() > 0) bloco.insertBefore(bloco.prev());
             });
+        },
+        wrapTemplateBlocks : function(content){
+            var child, childToStr, newContent, textarea;
+            
+            newContent = $("<code></code>");
+            
+            content.children('.anchor').remove();
+            
+            for(var x = 0; x < content.children().length; x++){
+                child = content.children().eq(x);
+                
+                //é bloco de outro template?
+                if(child.attr('class').indexOf('bloco-') != -1){
+                    textarea = $('<textarea contenteditable="false"></textarea>');
+                    textarea.append(child);
+                    newContent.append(textarea);
+                }else{
+                    newContent.append(child.html());
+                }
+            }
+            return newContent.html().toString();
         },
     },
     //========================================= CONTROLERS ==========================================
