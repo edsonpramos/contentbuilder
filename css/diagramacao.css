@@ -156,6 +156,13 @@ th, td {
 	background-position:10px center;
 }
 
+    .box-destaque.sem-icone {
+        padding-left: 10px;
+    }
+    .box-dica.sem-icone h4{
+        background:none;
+    }
+
 .noborder, .noborder img{
     border:none;
 }
