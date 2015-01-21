@@ -108,7 +108,7 @@ th, td {
 	border-collapse: collapse;
 }
 
-#miolo .table-highlight-header tbody > tr:first-child td{
+.miolo .table-highlight-header tbody > tr:first-child td{
     background-color:blue;
     color:white;
 }
@@ -174,9 +174,9 @@ th, td {
 }
 
 /*VIDEO*/
-#miolo .jwplayer{
+.miolo .jwplayer{
     width:100% !important;
-    max-width: 500px;
+    max-width: 700px;
     margin:0 auto;
 }
 
@@ -209,6 +209,14 @@ th, td {
     margin-left: 0;
     margin-right:20px;
 }
+
+/*SLIDER*/
+.carousel{
+    width: 100%;
+    max-width: 700px;
+    margin:auto;
+}
+
 
 /*=========================== RESPONSIVIDADE =================================*/
 
