@@ -54,9 +54,10 @@ var templates = {
                         }else{
                             child.find('.toappend').eq(0).append($(this));
                         }
-                        template.append(child);
+                        
                     }
                 }
+                if(typeof(child) != "undefined")template.append(child);
             });
             
             //acerta o "collapse in"
