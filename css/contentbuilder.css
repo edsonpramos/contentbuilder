@@ -7,10 +7,14 @@
 
 .anchor{
     border-top:1px dashed #99E5FF;
+    /*height:1px;
+    line-height:1px;
+    font-size:0;
+    overflow:hidden;*/
 }
 
 
-#scroll{
+#tools{
 	position:fixed;
 	right:0;
 	width:100px;
@@ -19,11 +23,11 @@
 	background: #ddd;
 	transition: right 1s;
 }
-/*#templates{
+.scroll{
 	width:100%;
 	height:100%;
 	overflow:auto;
-}*/
+}
 .fechado{ right:-120px;}
 
 .thumb {
@@ -48,7 +52,7 @@
 #controlers .btn{ margin:10px 0}
 
 .ui-state-highlight {
-	border:1px dashed #ccc; background:none; min-height:20px;
+	border:1px dashed red; background:none; height:50px; line-height:50px;
 }
 
 .bloco{
@@ -64,6 +68,15 @@
 
 .ctn > div.span4, .ctn > div.span8{
     border:1px dotted #ccc;
+}
+
+/*nogrid*/
+.anchor.nogrid{
+    display:none;
+}
+.ctn > div.nogrid{
+    border:none;
+    display:block;
 }
 
 /*=== TOOLS ===*/

@@ -22,7 +22,7 @@
     $( "#miolo" ).sortable({
 	  placeholder: "ui-state-highlight",
 	  items: ".bloco", 
-	  cursorAt: { top: 0 },
+	  /*cursorAt: { top: 0 },*/
 	  receive:function(event,ui){
         var template_name = ui.helper.data("template");
         templates[template_name].init(ui);
@@ -469,30 +469,30 @@
     
 </head>
 <body>
-<!--<a href="#miolo" class="sr-only sr-only-focusable">Skip to main content</a>-->
 	<div id="miolo">
 		<div class="bloco ui-sortable-handle anchor">&nbsp;</div>
 	</div>
-	
-	<div id="scroll">
-      <div id="templates">
-        <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
-		<div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
-        <div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
-        <div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
-		<div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
-        <div class="thumb" data-template="video"><img src="img/templates/video.png"/></div>
-        <div class="thumb" data-template="box"><img src="img/templates/box.png"/></div>
-		<div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>
-		<div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
-		<div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
-		<div class="thumb" data-template="carousel"><img src="img/templates/carousel.png"/></div>
+	<div id="tools">
+        <div class="scroll">
+          <div id="templates">
+            <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
+            <div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
+            <div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
+            <div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
+            <div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
+            <div class="thumb" data-template="video"><img src="img/templates/video.png"/></div>
+            <div class="thumb" data-template="box"><img src="img/templates/box.png"/></div>
+            <div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>
+            <div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
+            <div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
+            <div class="thumb" data-template="carousel"><img src="img/templates/carousel.png"/></div>
+          </div>
+            <hr/>
+          <div id="controlers">
+            <a class="btn" href="javascript:void(0)" id="btn-html-grid"><i class="icon-eye-close"></i> Grid</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> HTML</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
+          </div>
       </div>
-        <hr/>
-      <div id="controlers">
-        <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> HTML</a>
-        <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
-        <a class="btn" href="javascript:void(0)" id="btn-html-grid"><i class="icon-eye-close"></i> Grid</a>
-	  </div>
 	</div> 
  </body>

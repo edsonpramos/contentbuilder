@@ -1295,5 +1295,20 @@ var templates = {
         btn_html_save : {
             init : function(){},
         },
+        btn_html_grid : {
+            properties:{
+                toogle:false,
+            },
+            init : function(){
+                if(templates.controlers.btn_html_grid.properties.toogle){
+                    $('.nogrid').removeClass('nogrid');
+                    templates.controlers.btn_html_grid.properties.toogle = false;
+                }else{
+                    $('.ctn > div').addClass('nogrid');
+                    $('.anchor').addClass('nogrid');
+                    templates.controlers.btn_html_grid.properties.toogle = true;
+                }
+            },
+        },
     },
   };
