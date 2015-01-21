@@ -108,6 +108,8 @@ th, td {
 	border-collapse: collapse;
 }
 
+.table-bold td, .table-bold th{font-weight:bold;}
+
 .miolo .table-highlight-header tbody > tr:first-child td{
     background-color:blue;
     color:white;
@@ -212,7 +214,7 @@ th, td {
 	margin-right:auto !important;
 } 
 
-#miolo .pull-left {
+.miolo .pull-left {
     margin-left: 0;
     margin-right:20px;
 }
