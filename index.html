@@ -159,10 +159,15 @@
     ##
     <form class="formtomodal">
         <textarea id="video-sources" placeholder="url dos vídeos" class="span6"></textarea>
-        <span class="help-block">Use: url,label,default; ...</span>
         <input type="text" id="video-captions" placeholder="url da legenda" class="span6"/>
         <input type="text" id="video-chapters" placeholder="url dos capítulos" class="span6"/>
         <input type="text" id="video-image" placeholder="url da imagem de abertura" class="span6"/>
+        <span class="help-block">
+            <p>http://content.jwplatform.com/videos/3XnJSIm4-kNspJqnJ.mp4,baixa,true;http://content.jwplatform.com/videos/3XnJSIm4-kNspJqnJ.mp4,alta,false</p>
+            <p>http://assets-jp.jwpsrv.com/tracks/2UEDrDhv.txt</p>
+            <p>http://content.jwplatform.com/tracks/XtwSLSdq.txt</p>
+            <p>http://content.jwplatform.com/thumbs/q1fx20VZ-640.jpg</p>
+        </span>
 	</form>
   </script>
 
@@ -194,9 +199,6 @@
     <form class="formtomodal">
         <div id="texteyeModalContent" contenteditable="true" class="likeTextarea editable"></div>
         <span id="texteyeModalClasses" class="form-inline">
-            <label class="checkbox">
-                <input id="texteyeModal_noborder" type="checkbox" value="noborder"> noborder
-            </label>
             <label class="checkbox_group">
                 Alinhamento:
             </label>
@@ -215,6 +217,10 @@
             <label class="checkbox">
                 <input id="texteyeModal_span8" type="radio" name="texteye_width" value="span8"> 2cols
             </label>
+        </span>
+        <span class="help-block">Exemplo (usando marcadores no Word):
+            <p>Praesent faucibus urna eu enim egestas et imperdiet odio semper. Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien     vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p>
+            <p>>>Etiam aliquet lorem nec ligula feugiat commodo. Praesent faucibus urna eu enim egestas et imperdiet odio semper.</p>
         </span>
 	</form>
   </script> 
@@ -237,6 +243,10 @@
             <label class="checkbox">
                 <input id="textpictModal_noborder" type="checkbox" value="noborder"> noborder
             </label>
+            <label class="checkbox">
+                <input id="textpictModal_nolegendmargin" type="checkbox" value="nolegendmargin"> nolegendmargin
+            </label>
+            <br/>
             <label class="checkbox_group">
                 Alinhamento:
             </label>
@@ -255,6 +265,11 @@
             <label class="checkbox">
                 <input id="textpictModal_span8" type="radio" name="textpict_width" value="span8"> 2cols
             </label>
+        </span>
+        <span class="help-block">Exemplo (usando marcadores no Word):
+            <p>Praesent faucibus urna eu enim egestas et imperdiet odio semper. Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien     vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p>
+            <p>>>http://getbootstrap.com/2.3.2/assets/img/bootstrap-mdo-sfmoma-01.jpg</p>
+            <p>Etiam aliquet lorem nec ligula feugiat commodo. Praesent faucibus urna eu enim egestas et imperdiet odio semper.</p>
         </span>
 	</form>
   </script> 
@@ -277,6 +292,13 @@
             <label class="checkbox">
                 <input id="pictModal_noborder" type="checkbox" value="noborder"> noborder
             </label>
+            <label class="checkbox">
+                <input id="pictModal_nomargin" type="checkbox" value="nomargin"> nomargin
+            </label>
+            <label class="checkbox">
+                <input id="pictModal_nolegendmargin" type="checkbox" value="nolegendmargin"> nolegendmargin
+            </label>
+            <br/>
             <label class="checkbox_group">
                 Largura:
             </label>
@@ -388,11 +410,10 @@
     <form class="formtomodal">
         <div id="carouselModalContent" contenteditable="true" class="likeTextarea editable"></div>
         <span class="help-block">Exemplo (usando marcadores no Word):
-            <p>>>Lorem ipsum dolor sit amet</p>
-            <p>Quisque lorem mi, consectetuer et, sodales eget, tempor vitae, justo. Donec gravida mauris vitae ante. Etiam consequat pretium leo.</p>
-            <p>Etiam aliquet lorem nec ligula feugiat commodo. Proin pulvinar aliquet turpis, vitae pharetra nisl ornare sed. Morbi aliquam sapien vulputate quam vulputate sodales. Vivamus vitae libero ligula, ac cursus sapien.</p>
-            <p>>>Aliquam dui neque, dignissim sit</p>
-            <p>Sed tempor pretium sapien a pellentesque. Praesent id nisl quam. Duis quis neque a mauris interdum rutrum ac sit amet mi.</p>
+            <p>>>http://getbootstrap.com/2.3.2/assets/img/bootstrap-mdo-sfmoma-01.jpg</p>
+            <p>Quisque lorem mi, consectetuer et, sodales eget, tempor vitae, justo. Donec gravida mauris vitae ante.</p>
+            <p>>>http://getbootstrap.com/2.3.2/assets/img/bootstrap-mdo-sfmoma-02.jpg</p>
+            <p>Donec id elit non mi porta gravida at. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
         </span>
 	</form>
   </script>

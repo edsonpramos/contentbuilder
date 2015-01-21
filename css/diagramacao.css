@@ -85,6 +85,18 @@ h2{
 label{cursor:default;}
 
 /*TABLE*/
+caption{
+    font-size: 24px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+    background-color: #aaa;
+    color: #fff;
+}
 th, td {
 	border-color:#ccc;
 }
@@ -146,6 +158,12 @@ th, td {
 
 .noborder, .noborder img{
     border:none;
+}
+.miolo .nomargin {
+    margin:0;
+}
+.miolo .nolegendmargin {
+    margin-bottom:0;
 }
 
 .miolo .pull-right{ margin-left:2.3% !important; margin-right:0 !important;}
