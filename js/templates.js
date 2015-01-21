@@ -1290,7 +1290,7 @@ var templates = {
                 var code = $('#miolo').clone();
                 code.find('ul.tool').remove();
                 code.find('.anchor').remove();
-                code = $('<textarea class="html-tocopy"><div id="miolo">'+code.html().toString()+'</div></textarea>');
+                code = $('<textarea class="html-tocopy"><div class="miolo">'+code.html().toString()+'</div></textarea>');
                 templates.utils.modal.openModal('Código HTML pronto para copiar/colar', code, '', '', '');
             },
         
