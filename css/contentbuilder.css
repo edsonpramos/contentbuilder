@@ -1,6 +1,6 @@
-@import url('diagramacao.css');
+/*@import url('diagramacao.css');*/
 
-.miolo{margin-top:20px;}
+#miolo{margin-top:20px; margin-left:20px;}
 
 .anchor{
     border-top:1px dashed #99E5FF;

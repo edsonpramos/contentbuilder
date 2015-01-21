@@ -19,6 +19,9 @@
   
   <script>
   $(function() {
+    
+    getCssProject();
+    
     $( "#miolo" ).sortable({
 	  placeholder: "ui-state-highlight",
 	  items: ".bloco", 
@@ -57,7 +60,15 @@
     CKEDITOR.disableAutoInline = true;
     CKEDITOR.config.startupFocus = true;
     CKEDITOR.config.extraAllowedContent = 'textarea';
-  });    
+  });  
+
+  function getCssProject(){
+    var query = window.location.search.substring(1).split('=')[1];
+    var link;
+    query = (typeof(query) != "undefined")? "projects/" + query + "/" : "" ;
+    link = '<link href="'+query+'css/diagramacao.css" rel="stylesheet"/>';
+    $('head').append(link);
+  }  
   </script>
   
   
@@ -394,7 +405,7 @@
     <li><a href="#pane_{{childId}}" data-toggle="tab">Home</a></li>
 	## 
 	<div class="tab-pane" id="pane_{{childId}}">
-      <div class="bloco ui-sortable-handle toappend"></div>
+      <div class="toappend"></div>
       <div class="bloco ui-sortable-handle anchor"></div>
     </div>
     ##
@@ -426,7 +437,7 @@
 		</div>
 		<div id="collapse_{{childId}}" class="accordion-body collapse">
             <div class="accordion-inner">
-                <div class="bloco ui-sortable-handle toappend"></div>
+                <div class="toappend"></div>
                 <div class="bloco ui-sortable-handle anchor"></div>
             </div>
 		</div>
@@ -469,7 +480,7 @@
     
 </head>
 <body>
-	<div class="miolo">
+	<div id="miolo" class="miolo">
 		<div class="bloco ui-sortable-handle anchor">&nbsp;</div>
 	</div>
 	<div id="tools">
