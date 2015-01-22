@@ -25,14 +25,14 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do Accordion', templates.accordion.properties.template_modal, templates.accordion.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var child_id, template, child, tool, content, textarea, templateBlock;
+            var child_id, template, child, tool, content, textarea, templateBlock, childBlock, childrenBlock;
 
             template = $(templates.accordion.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             
             //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#accordionModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
            
             content.each(function(i){
                 //achou o token ">>" ?
@@ -47,14 +47,19 @@ var templates = {
                         textarea = $(this).find('textarea');
                         //este conteúdo é um outro template?
                         if(textarea.size() > 0){
-                            templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
-                            child.find('.accordion-inner').eq(0).append(templateBlock);
-                            templates.utils.blockMouseHandler(templateBlock);
-                            templates.utils.rebindTools(templateBlock);
+                            templateBlock = $('<code></code>');
+                            templateBlock.append(textarea.eq(0).val().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
+                            childrenBlock = templateBlock.find('.bloco').not('.anchor');
+                            //procura por templates internos
+                            for(var x = 0; x < childrenBlock.length; x++){
+                                childBlock = childrenBlock.eq(x);
+                                templates.utils.blockMouseHandler(childBlock);
+                                templates.utils.rebindTools(childBlock);
+                            }
+                            child.find('.accordion-inner').eq(0).append(templateBlock.children());
                         }else{
                             child.find('.toappend').eq(0).append($(this));
                         }
-                        
                     }
                 }
                 if(typeof(child) != "undefined")template.append(child);
@@ -132,7 +137,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do tab', templates.tab.properties.template_modal, templates.tab.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var child_id, template_nav, template_pane, child_nav, child_pane, tool, content, textarea, templateBlock, this_pane;
+            var child_id, template_nav, template_pane, child_nav, child_pane, tool, content, textarea, templateBlock, this_pane, childBlock, childrenBlock;;
 
             template = $(templates.tab.properties.template_parent.replace(/(\{\{id\}\})/g,template_id));
             template_nav = template.eq(0);
@@ -141,7 +146,7 @@ var templates = {
             //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#tabModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
         
             content.each(function(i){
                 //achou o token ">>" ?
@@ -161,10 +166,17 @@ var templates = {
                         this_pane = template_pane.find('#pane_'+child_id).eq(0);
                         //este conteúdo é um outro template?
                         if(textarea.size() > 0){
-                            templateBlock = $(textarea.eq(0).html().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
-                            this_pane.append(templateBlock);
-                            templates.utils.blockMouseHandler(templateBlock);
-                            templates.utils.rebindTools(templateBlock);
+                            templateBlock = $('<code></code>');
+                            templateBlock.append(textarea.eq(0).val().toString().replace(templates.utils.regex.allLt,'<').replace(templates.utils.regex.allGt,'>'));
+                            childrenBlock = templateBlock.find('.bloco').not('.anchor');
+                            
+                            //procura por templates internos
+                            for(var x = 0; x < childrenBlock.length; x++){
+                                childBlock = childrenBlock.eq(x);
+                                templates.utils.blockMouseHandler(childBlock);
+                                templates.utils.rebindTools(childBlock);
+                            }
+                            this_pane.append(templateBlock.children());
                         }else{
                             this_pane.children('.toappend').append($(this));
                         }
@@ -251,7 +263,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#carouselModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
            
             content.each(function(i){
                 //achou o token ">>" ?
@@ -347,7 +359,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#tableModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
             
             for(var x=0;x<content.length;x++){
                 
@@ -504,7 +516,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#boxModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = templates.utils.regex.checkTagLess(content);
+            //content = templates.utils.regex.checkTagLess(content);
             content = $('<div id="box_'+template_id+'">'+ content + '</div>');
             
             content = setClasses(content);
@@ -597,7 +609,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#pictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
             
             content.each(function(i){
                 //busca token >>
@@ -697,7 +709,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#textpictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
             
             content.each(function(i){
                 //busca token >>
@@ -806,7 +818,7 @@ var templates = {
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#texteyeModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se conteúdo veio sem tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
             
             content.each(function(i){
                 //busca token >>
@@ -906,7 +918,7 @@ var templates = {
             //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#textModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
             //checa se existe tag
-            content = $(templates.utils.regex.checkTagLess(content));
+            content = $(content);
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
@@ -1113,13 +1125,15 @@ var templates = {
                 if(typeof($(this).attr('id')) != "undefined"){
                     var id = $(this).attr('id');
                     var editor = CKEDITOR.instances[id];
+                    var template_name = id.substring(0, id.indexOf("Modal"));
                     
                     if(editor){
                        editor.removeAllListeners();
                        CKEDITOR.remove(editor);
                        $('#cke_'+id).remove();
                     }
-                    CKEDITOR.inline(document.getElementById(id));
+                    editor = CKEDITOR.inline(document.getElementById(id));
+                    editor.config.toolbar = templates.utils.getToolbar(template_name);
                 }
             });
         },
@@ -1148,6 +1162,33 @@ var templates = {
                     }
                 }
             });
+        },
+        getToolbar:function(template_name){
+            var basics = { 
+                copypaste : [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+                tbl : ['Table'],
+                link : [ 'Link','Unlink'],
+                list : [ 'NumberedList','BulletedList','-','Outdent','Indent'],
+                style : [ 'Bold', 'Italic','Subscript','Superscript'],
+                fmt : ['Format'],
+            }
+            
+            var normal = [basics.copypaste, basics.link, '/', basics.style, basics.list, basics.fmt];
+            
+            var toolbar = {
+                accordion : normal,
+                box : normal,
+                carousel : [basics.copypaste, basics.link, '/', basics.style, basics.fmt],
+                pict: [basics.copypaste, basics.link, '/', basics.style, basics.fmt],
+                tab : normal,
+                table : [basics.copypaste, basics.link, basics.tbl, '/', basics.style, basics.list, basics.fmt],
+                text : normal,
+                texteye : normal,
+                textpict : normal,
+            };
+            
+            return toolbar[template_name];
+        
         },
         getUid:function() {
             var s4 = new Array(8);
@@ -1199,10 +1240,16 @@ var templates = {
             },
         },
         rebindTools:function(block){
-            var template_name, template_id;
+            var template_name, template_id, tool;
             template_name = templates.utils.regex.findTemplate.exec(block.attr('class'));
             template_name = template_name.toString().split('-')[1];
             template_id = block.attr('id').split('_')[1];
+            
+            //não possui tool?
+            if(block.find('.tool').size() == 0){
+                tool = $(templates[template_name].properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+                block.append(tool);
+            }
             
             templates[template_name].defineTools(template_id,block);
         },
@@ -1236,18 +1283,18 @@ var templates = {
                 
                 return str.replace(regex_table,'<table class="table"');
             },
-            checkTagLess : function(str){
+            /*checkTagLess : function(str){
                 //se a string não estiver dentro de uma tag, insere.
                 //Exceto os tokens >>
-               /*
+               
                var tagExists = /<[^>]*>.*<\/[^>]*>/;
                 //var token = /^(\s)*>>/;
                 if(!tagExists.test(str)){
                       str = '<div>'+str+'</div>';
-                }*/
+                }
                 
                 return str;
-            },
+            },*/
         },
         setDeleteButton : function(tools){
             tools.children('.bt_delete:eq(0)').click(function(){
@@ -1298,6 +1345,28 @@ var templates = {
         },
         btn_html_save : {
             init : function(){},
+        },
+        btn_html_source : {
+            init : function(){
+                var code = $('#miolo').clone();
+                code = $('<textarea class="html-source">'+code.html().toString()+'</textarea>');
+                templates.utils.modal.openModal('Código HTML pronto para copiar/colar', code, templates.controlers.btn_html_source.replaceCode, '', '');
+            },
+            replaceCode : function(){
+                var content = $('<code></code>');
+                       content.append($('#modal').find('.html-source').eq(0).val().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+                var block;
+                var blocks = content.find('.bloco').not('.anchor');
+                
+                for(var x = 0; x < blocks.length; x++){
+                    //achou um bloco de template?
+                    if(templates.utils.regex.findTemplate.test(blocks.eq(x).attr('class'))){
+                        templates.utils.blockMouseHandler(blocks.eq(x));
+                        templates.utils.rebindTools(blocks.eq(x));
+                    }
+                }
+                $('#miolo').html('').append(content.children());
+            },
         },
         btn_html_grid : {
             properties:{

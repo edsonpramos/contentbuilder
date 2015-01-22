@@ -159,9 +159,9 @@
 .form-inline input{
     vertical-align:text-top;
 }
-textarea.html-tocopy{
-    width:100%;
-    height:400px;
+textarea.html-tocopy, textarea.html-source{
+    width:97%;
+    height:300px;
 }
 
 /*CKEDITOR*/

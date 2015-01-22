@@ -57,9 +57,24 @@
         templates.controlers.btn_html_grid.init();
     });
     
+    $('#btn-html-source').click(function(){
+        templates.controlers.btn_html_source.init();
+    });
+    
+    
     CKEDITOR.disableAutoInline = true;
     CKEDITOR.config.startupFocus = true;
     CKEDITOR.config.extraAllowedContent = 'textarea';
+    CKEDITOR.on('dialogDefinition', function (e) {
+        var dialogName = e.data.name;
+        var dialog = e.data.definition.dialog;
+        dialog.on('show', function () {
+           if($('#modal').size() > 0)$('#modal').attr('tabindex','');
+        });
+        dialog.on('hide', function () {
+            if($('#modal').size() > 0)$('#modal').attr('tabindex','-1');
+        });
+    });
   });  
 
   function getCssProject(){
@@ -521,8 +536,9 @@
           </div>
             <hr/>
           <div id="controlers">
+            <a class="btn" href="javascript:void(0)" id="btn-html-source"><i class="icon-tags"></i> Código</a>
             <a class="btn" href="javascript:void(0)" id="btn-html-grid"><i class="icon-eye-close"></i> Grid</a>
-            <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> HTML</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> Copiar</a>
             <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
           </div>
       </div>
