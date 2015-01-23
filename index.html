@@ -24,8 +24,9 @@
     
     $( "#miolo" ).sortable({
 	  placeholder: "ui-state-highlight",
+      forcePlaceholderSize: true,
 	  items: ".bloco", 
-	  /*cursorAt: { top: 0 },*/
+	  cursorAt: { top: 0, left:0, },
 	  receive:function(event,ui){
         var template_name = ui.helper.data("template");
         templates[template_name].init(ui);
@@ -40,7 +41,7 @@
 	$( ".thumb" ).draggable({
       helper: "clone",
 	  cursor:"crosshair",
-	  /*cursorAt: { top: 0 },*/
+	  cursorAt: { top: 0, left:0, },
       opacity:.7,
 	  connectToSortable: "#miolo",
     });
