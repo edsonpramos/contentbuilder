@@ -31,7 +31,6 @@ var templates = {
             
             //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#accordionModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
            
             content.each(function(i){
@@ -145,7 +144,6 @@ var templates = {
             
             //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#tabModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
         
             content.each(function(i){
@@ -262,7 +260,6 @@ var templates = {
             
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#carouselModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
            
             content.each(function(i){
@@ -358,7 +355,6 @@ var templates = {
 
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#tableModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
             
             for(var x=0;x<content.length;x++){
@@ -515,8 +511,6 @@ var templates = {
 
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#boxModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
-            //content = templates.utils.regex.checkTagLess(content);
             content = $('<div id="box_'+template_id+'">'+ content + '</div>');
             
             content = setClasses(content);
@@ -601,20 +595,29 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do pict', templates.pict.properties.template_modal, templates.pict.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var template, content, tool;
+            var template, content, tool, url, anchor, img;
             
             template = $(templates.pict.properties.template_pict.replace(/(\{\{id\}\})/g,template_id));
             template = setClasses(template);
 
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#pictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
             
             content.each(function(i){
                 //busca token >>
                 if(templates.utils.regex.gt.test($(this).html().toString())){
-                    template.children('img').eq(0).attr('src', templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
+                    url = templates.utils.regex.cleanCode($(this).html().toString(), ['gt','returns']);
+                    if(url.indexOf('</a>') != -1){
+                        anchor = templates.utils.regex.anchor.exec(url);
+                        anchor += '</a>';
+                    }
+                    url = templates.utils.regex.cleanCode(url, ['br','allTags']);
+                    img = template.find('img').eq(0);
+                    img.attr('src',url);
+                    if(typeof(anchor) != 'undefined'){
+                        img.wrap(anchor);
+                    }
                 }else{
                     template.append($(this));
                 }
@@ -651,11 +654,17 @@ var templates = {
                 templates.utils.modal.openModal('Conteúdo do pict', filledModal, templates.pict.mergeContent, template_id,'');
                 
                 function getAppendedContent(template_id){
-                    var pict = $('#pict_'+template_id);
-                    var pictClasses = pict.attr('class').split(' ');
-                    var urltoken = '<p>&gt;&gt;'+pict.children('img').eq(0).attr('src')+'</p>';
+                    var pict, pictClasses, urltoken, anchoropen = '', anchorclose = '', template_modal;
                     
-                    var template_modal = $(templates.pict.properties.template_modal);
+                    pict = $('#pict_'+template_id);
+                    pictClasses = pict.attr('class').split(' ');
+                    if(pict.children().eq(0).get(0).tagName == "A"){
+                        anchoropen = '<a href="'+pict.children().eq(0).attr("href")+'">';
+                        anchorclose = '</a>';
+                    }
+                    urltoken = '<p>&gt;&gt;'+anchoropen+pict.find('img').eq(0).attr('src')+anchorclose+'</p>';
+
+                    template_modal = $(templates.pict.properties.template_modal);
                     
                     for(x = 0; x < pictClasses.length; x++){
                         input = template_modal.find('#pictModal_'+pictClasses[x]);
@@ -700,7 +709,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do textpict', templates.textpict.properties.template_modal, templates.textpict.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var template, content, content_text = [], tool, flagImageBox = false, idx = 0;
+            var template, content, content_text = [], tool, flagImageBox = false;
             
             template = $(templates.textpict.properties.template_textpict);
             
@@ -708,7 +717,6 @@ var templates = {
             
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#textpictModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
             
             content.each(function(i){
@@ -716,14 +724,11 @@ var templates = {
                 if(templates.utils.regex.gt.test($(this).html().toString())){
                     content_text[0].children('img').eq(0).attr('src', templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
                     flagImageBox = true;
-                    idx++;
                 }else{
                     if(flagImageBox){
-                        content_text[0].append($(this));//content_text[0] = template
-                        idx++
+                        content_text[0].append($(this));
                     }else{
                         content_text.push($(this));
-                        idx++
                     }
                 }
             });
@@ -817,7 +822,6 @@ var templates = {
             
            //limpa o html que veio do modal
             content = templates.utils.regex.cleanCode($('#texteyeModalContent').html().toString(), templates.utils.regex.wordTrash).replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><');
-            //checa se conteúdo veio sem tag
             content = $(content);
             
             content.each(function(i){
@@ -1256,6 +1260,9 @@ var templates = {
         regex:{
             allGt : /&gt;/gi,
             allLt : /&lt;/gi,
+            allTags : /<[^>]*>/gi,
+            anchor : /<a[^>]*>/,
+            br: /<br.*>/gi,
             findTemplate : /bloco-[^\s]*/,
             gt : /&gt;&gt;/,
             op : /<o:p>.*<\/o:p>/gi,
@@ -1265,6 +1272,7 @@ var templates = {
             spanopen : /<span[^>]*>/gi,
             spanclose : /<\/span>/gi,
             msoClass : / class="MsoNormal"/gi,
+            returns :/[\n\r\t]/gi,
             tableHeader : / class="MsoTableGrid[^"]*"/gi,
             tableCel : / width="[^"]*"/gi,
             tableBorder: /border="[^"]*"/,
@@ -1272,7 +1280,6 @@ var templates = {
             tablePadding : /cellpadding="[^"]*"/,
             codeopen : /<code[^>]*>/gi,
             codeclose : /<\/code>/gi,
-            //wordTrash : ['op','spanopen','spanclose','msoClass','tableHeader','tableCel','pstyle','tableBorder'],
             wordTrash : ['tableCel','pstyle','tableBorder','tableSpacing','tablePadding'],
             cleanCode : function(str,regexlist){
                 var regex_table = /<table/gi;
