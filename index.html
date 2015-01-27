@@ -4,12 +4,17 @@
   <meta charset="utf-8">
   <title>FCAV ContentBuilder</title>
 
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">-->
+  <link rel="stylesheet" href="css/jquery-ui.css">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/contentbuilder.css" rel="stylesheet">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>-->
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-collapse.js"></script>
   <script src="js/bootstrap-tab.js"></script>
@@ -24,7 +29,6 @@
     
     $( "#miolo" ).sortable({
 	  placeholder: "ui-state-highlight",
-      forcePlaceholderSize: true,
 	  items: ".bloco", 
 	  cursorAt: { top: 0, left:0, },
 	  receive:function(event,ui){
@@ -34,6 +38,9 @@
 	  change:function(event,ui){
 		$('.ui-sortable-helper').appendTo('#templates');
 	  },
+      start:function(event,ui){
+        ui.placeholder.css('height',ui.item.outerHeight());
+      },
     });
 	
 	$("#miolo, #templates").disableSelection();
