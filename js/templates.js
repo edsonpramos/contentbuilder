@@ -709,7 +709,7 @@ var templates = {
             templates.utils.modal.openModal('Conteúdo do textpict', templates.textpict.properties.template_modal, templates.textpict.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
-            var template, content, content_text = [], tool, flagImageBox = false;
+            var template, content, content_text = [], tool, flagImageBox = false, url, anchor, img;
             
             template = $(templates.textpict.properties.template_textpict);
             
@@ -722,7 +722,19 @@ var templates = {
             content.each(function(i){
                 //busca token >>
                 if(templates.utils.regex.gt.test($(this).html().toString())){
-                    content_text[0].children('img').eq(0).attr('src', templates.utils.regex.cleanCode($(this).html().toString(), ['gt']));
+                    url = templates.utils.regex.cleanCode($(this).html().toString(), ['gt','returns']);
+                    if(url.indexOf('</a>') != -1){
+                        anchor = templates.utils.regex.anchor.exec(url);
+                        anchor += '</a>';
+                    }
+                    url = templates.utils.regex.cleanCode(url, ['br','allTags']);
+                    img = content_text[0].find('img').eq(0);
+                    img.attr('src',url);
+                    
+                    if(typeof(anchor) != 'undefined'){
+                        img.wrap(anchor);
+                    }
+                    
                     flagImageBox = true;
                 }else{
                     if(flagImageBox){
@@ -765,11 +777,17 @@ var templates = {
                 templates.utils.modal.openModal('Conteúdo do textpict', filledModal, templates.textpict.mergeContent, template_id,'');
                 
                 function getAppendedContent(template_id){
-                    var textpict = $('#bloco_'+template_id).find('.box-imagem').eq(0);
-                    var textpictClasses = textpict.attr('class').split(' ');
-                    var urltoken = '<p>&gt;&gt;'+textpict.children('img').eq(0).attr('src')+'</p>';
+                    var textpict, textpictClasses, urltoken, anchoropen = '', anchorclose = '', template_modal;
+                    textpict = $('#bloco_'+template_id).find('.box-imagem').eq(0);
+                    textpictClasses = textpict.attr('class').split(' ');
                     
-                    var template_modal = $(templates.textpict.properties.template_modal);
+                    if(textpict.children().eq(0).get(0).tagName == "A"){
+                        anchoropen = '<a href="'+textpict.children().eq(0).attr("href")+'">';
+                        anchorclose = '</a>';
+                    }
+                    urltoken = '<p>&gt;&gt;'+anchoropen+textpict.find('img').eq(0).attr('src')+anchorclose+'</p>';
+                    
+                    template_modal = $(templates.textpict.properties.template_modal);
                     
                     for(x = 0; x < textpictClasses.length; x++){
                         input = template_modal.find('#textpictModal_'+textpictClasses[x]);
