@@ -31,6 +31,7 @@
 	  placeholder: "ui-state-highlight",
 	  items: ".bloco", 
 	  cursorAt: { top: 0, left:0, },
+      delay: 150,
 	  receive:function(event,ui){
         var template_name = ui.helper.data("template");
         templates[template_name].init(ui);

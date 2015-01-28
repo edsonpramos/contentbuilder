@@ -85,6 +85,9 @@ h2{
 label{cursor:default;}
 
 /*TABLE*/
+.table{
+    word-break: break-word;
+}
 caption{
     font-size: 24px;
     font-weight: bold;
@@ -237,7 +240,7 @@ th, td {
 
 /* VERSAO CELULAR LANDSCAPE*/
 @media(max-width:767px){
-	.miolo .span4, .miolo .span6{
+	.miolo .span4, .miolo .span8{
 		width: 48.93617021276595%;
 		float:left;
 	}
@@ -260,7 +263,11 @@ th, td {
 
 /* VERSAO CELULAR LANDSCAPE*/
 @media(max-width:640px){
-	
+	.miolo .span4, .miolo .span8{
+		width: 100%%;
+		float:none;
+        margin-left:0;
+	}
 }
 
 /*VERSd CELULAR*/
