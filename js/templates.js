@@ -78,7 +78,7 @@ var templates = {
             };
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.accordion.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.accordion.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -195,7 +195,7 @@ var templates = {
             };
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.tab.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.tab.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -299,7 +299,7 @@ var templates = {
             };
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.carousel.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.carousel.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -426,7 +426,7 @@ var templates = {
             }
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.table.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.table.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -543,7 +543,7 @@ var templates = {
             }
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.box.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.box.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -651,7 +651,7 @@ var templates = {
             }
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.pict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.pict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -775,7 +775,7 @@ var templates = {
             }
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.textpict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.textpict.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
@@ -887,7 +887,7 @@ var templates = {
             }
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.texteye.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.texteye.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
             tools.children('.bt_edit:eq(0)').click(function(){
                 var template_id = $(this).parent().data('target');
