@@ -1355,11 +1355,13 @@ var templates = {
                         click : function(e){
                             if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
                                 //não é anchor do próprio pai? evitar me.after(me);
-                                if(templates._globals.moveme != $(this).parents('.bloco')){
+                                if(templates._globals.moveme.attr('id') !=  $(this).parents('.bloco').attr('id')){
                                     $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
                                     $(this).after(templates._globals.moveme);
                                     templates._globals.moveme = "";
                                     $('.anchor').off();
+                                }else{
+                                    console.log('bloco não pode ser inserido dentro de si mesmo');
                                 }
                             }
                         },

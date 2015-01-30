@@ -105,6 +105,7 @@
         .bloco-container > .tool li{
             margin-left:0;
             margin-right:10px;
+            background-position-y: -71px;
         }
     
     .tool:hover{
