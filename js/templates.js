@@ -1,5 +1,6 @@
 var templates = {
     _globals:{
+        moveme : '',
     },
     //========================================= ACCORDION ==========================================
     accordion:{
@@ -104,6 +105,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -222,6 +224,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -323,6 +326,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
                         
             if(bloco_rebind == ""){
                 return tools;
@@ -481,6 +485,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -567,6 +572,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -681,6 +687,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -804,6 +811,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -909,6 +917,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -973,6 +982,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -1070,6 +1080,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -1122,6 +1133,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
+            templates.utils.setMoveToButton(tools);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -1308,18 +1320,6 @@ var templates = {
                 
                 return str.replace(regex_table,'<table class="table"');
             },
-            /*checkTagLess : function(str){
-                //se a string não estiver dentro de uma tag, insere.
-                //Exceto os tokens >>
-               
-               var tagExists = /<[^>]*>.*<\/[^>]*>/;
-                //var token = /^(\s)*>>/;
-                if(!tagExists.test(str)){
-                      str = '<div>'+str+'</div>';
-                }
-                
-                return str;
-            },*/
         },
         setDeleteButton : function(tools){
             tools.children('.bt_delete:eq(0)').click(function(){
@@ -1333,6 +1333,38 @@ var templates = {
                 var bloco = $('#bloco_'+template_id);
                 if(bloco.prev().size() > 0) bloco.insertBefore(bloco.prev());
             });
+        },
+        setMoveToButton : function(tools){
+            tools.children('.bt_moveto:eq(0)').click(function(){
+                    $('#miolo').sortable( "disable" ).addClass('cursor-moveto');
+                    templates._globals.moveme = $(this).parent().parent();//bloco pai
+                   
+                    $(document).keydown(function(e) {
+                        // ESCAPE key pressed
+                        if (e.keyCode == 27) {
+                            //moveme possui um objeto?
+                            if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
+                                $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
+                                templates._globals.moveme = "";
+                                $('.anchor').off();
+                            }
+                        }
+                    });
+                    
+                    $('.anchor').on({
+                        click : function(e){
+                            if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
+                                //não é anchor do próprio pai? evitar me.after(me);
+                                if(templates._globals.moveme != $(this).parents('.bloco')){
+                                    $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
+                                    $(this).after(templates._globals.moveme);
+                                    templates._globals.moveme = "";
+                                    $('.anchor').off();
+                                }
+                            }
+                        },
+                    });
+                });
         },
         wrapTemplateBlocks : function(content){
             var child, childToStr, newContent, textarea;

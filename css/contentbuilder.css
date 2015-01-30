@@ -11,6 +11,15 @@
     overflow:hidden;*/
 }
 
+.cursor-moveto{
+    cursor:auto;
+    cursor:url("../img/moveto.png"),auto;
+}
+    .cursor-moveto .anchor:hover{
+        border-bottom: 1px dashed red;
+        border-left: 1px dashed red;
+        border-right: 1px dashed red;
+    }
 
 #tools{
 	position:fixed;
@@ -67,6 +76,9 @@
 .ctn > div.span4, .ctn > div.span8{
     border:1px dotted #ccc;
 }
+    .ctn > div > .anchor{
+        border-color:blue;
+    }
 
 /*nogrid*/
 .anchor.nogrid{
@@ -84,32 +96,38 @@
     top:0;
     right:0;
     opacity:.5;
+    margin:0;
 }
     .bloco-container > .tool{
-        right:auto;
+        right:initial;
         left:0;
     }
+        .bloco-container > .tool li{
+            margin-left:0;
+            margin-right:10px;
+        }
+    
     .tool:hover{
         opacity:1;
     }
-	.tool ul, li{
+	.tool, .tool li{
 		margin:0;
 		padding:0;
 	}
-	.tool ul:after, 
-	.tool ul:before{
+	/*.tool:after, 
+	.tool:before{
 		content:" ";
 		display:block;
 		clear:both;
 		float:none;
-	}
+	}*/
 	.tool li{
 		display:inline-block;
 		float:left;
 		background:transparent url('../img/sprite.png') no-repeat 0 0;
 		width:22px;
 		height:22px;
-		margin:0 5px;
+		margin-left:10px;
         text-indent: -9000px;
         cursor:default;
 	}
@@ -131,6 +149,9 @@
     }
     .tool .bt_moveup{
         background-position: -168px -4px;
+    }
+    .tool .bt_moveto {
+        background-position: -450px -4px;
     }
     
     .tool .disable_tool{
