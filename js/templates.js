@@ -1129,7 +1129,7 @@ var templates = {
             };
         },
         defineTools:function(template_id,bloco_rebind){
-            var tools = (bloco_rebind != "") ? bloco_rebind.find('.tool').eq(0) : $(templates.container.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
+            var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.container.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
@@ -1173,8 +1173,10 @@ var templates = {
         },
         blockMouseHandler : function(block){
             block.mouseover(function(e){
+                e.stopPropagation();
                 $(this).children('ul.tool:eq(0)').removeClass('hide');
             }).mouseout(function(e){
+                e.stopPropagation();
                 $(this).children('ul.tool:eq(0)').addClass('hide');
             });
         },
@@ -1336,37 +1338,37 @@ var templates = {
         },
         setMoveToButton : function(tools){
             tools.children('.bt_moveto:eq(0)').click(function(){
-                    $('#miolo').sortable( "disable" ).addClass('cursor-moveto');
-                    templates._globals.moveme = $(this).parent().parent();//bloco pai
-                   
-                    $(document).keydown(function(e) {
-                        // ESCAPE key pressed
-                        if (e.keyCode == 27) {
-                            //moveme possui um objeto?
-                            if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
+                $('#miolo').sortable( "disable" ).addClass('cursor-moveto');
+                templates._globals.moveme = $(this).parent().parent();//bloco pai
+               
+                $(document).keydown(function(e) {
+                    // ESCAPE key pressed
+                    if (e.keyCode == 27) {
+                        //moveme possui um objeto?
+                        if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
+                            $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
+                            templates._globals.moveme = "";
+                            $('.anchor').off();
+                        }
+                    }
+                });
+                
+                $('.anchor').on({
+                    click : function(e){
+                        if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
+                            //não é anchor do próprio pai? evitar me.after(me);
+                            if(templates._globals.moveme.attr('id') !=  $(this).parents('.bloco').attr('id')){
                                 $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
+                                $(this).after(templates._globals.moveme);
                                 templates._globals.moveme = "";
                                 $('.anchor').off();
+                            }else{
+                                console.log('bloco não pode ser inserido dentro de si mesmo');
                             }
                         }
-                    });
-                    
-                    $('.anchor').on({
-                        click : function(e){
-                            if(templates._globals.moveme != "" && templates._globals.moveme.size() > 0){
-                                //não é anchor do próprio pai? evitar me.after(me);
-                                if(templates._globals.moveme.attr('id') !=  $(this).parents('.bloco').attr('id')){
-                                    $('#miolo').sortable( "enable" ).removeClass('cursor-moveto');
-                                    $(this).after(templates._globals.moveme);
-                                    templates._globals.moveme = "";
-                                    $('.anchor').off();
-                                }else{
-                                    console.log('bloco não pode ser inserido dentro de si mesmo');
-                                }
-                            }
-                        },
-                    });
+                    },
                 });
+            });
         },
         wrapTemplateBlocks : function(content){
             var child, childToStr, newContent, textarea;
@@ -1414,7 +1416,6 @@ var templates = {
             replaceCode : function(){
                 var content = $('<code></code>');
                        content.append($('#modal').find('.html-source').eq(0).val().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
-                var block;
                 var blocks = content.find('.bloco').not('.anchor');
                 
                 for(var x = 0; x < blocks.length; x++){
