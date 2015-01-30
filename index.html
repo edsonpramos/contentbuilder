@@ -18,6 +18,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-collapse.js"></script>
   <script src="js/bootstrap-tab.js"></script>
+  <script src="js/bootstrap-tooltip.js"></script>
   <script src="ckeditor/ckeditor.js"></script>
   <script src="jwplayer/jwplayer.js"></script>
   <script src="js/templates.js"></script>
@@ -26,6 +27,8 @@
   $(function() {
     
     getCssProject();
+    
+    $('.btn, .thumb img').tooltip({placement:"left"});
     
     $( "#miolo" ).sortable({
 	  placeholder: "ui-state-highlight",
@@ -52,6 +55,11 @@
 	  cursorAt: { top: 5, left:5, },
       opacity:.7,
 	  connectToSortable: "#miolo",
+      start : function(event,ui){
+        var helper = ui.helper;
+        helper.children('img').tooltip('destroy');
+        helper.children('.tooltip').remove();
+      },
     });
     
     $('#btn-html-tocopy').click(function(){
@@ -545,24 +553,24 @@
 	<div id="tools">
         <div class="scroll">
           <div id="templates">
-            <div class="thumb" data-template="container"><img src="img/templates/container.png"/></div>
-            <div class="thumb" data-template="text"><img src="img/templates/text.png"/></div>
-            <div class="thumb" data-template="pict"><img src="img/templates/pict.png"/></div>
-            <div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png"/></div>
-            <div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png"/></div>
-            <div class="thumb" data-template="video"><img src="img/templates/video.png"/></div>
-            <div class="thumb" data-template="box"><img src="img/templates/box.png"/></div>
-            <div class="thumb" data-template="table"><img src="img/templates/table-striped.png"/></div>
-            <div class="thumb" data-template="accordion"><img src="img/templates/accordion.png"/></div>	
-            <div class="thumb" data-template="tab"><img src="img/templates/tab.png"/></div>	
-            <div class="thumb" data-template="carousel"><img src="img/templates/carousel.png"/></div>
+            <div class="thumb" data-template="container"><img src="img/templates/container.png" data-toggle="tooltip" data-title="Container"/></div>
+            <div class="thumb" data-template="text"><img src="img/templates/text.png" data-toggle="tooltip" data-title="Texto"/></div>
+            <div class="thumb" data-template="pict"><img src="img/templates/pict.png" data-toggle="tooltip" data-title="Imagem"/></div>
+            <div class="thumb" data-template="texteye"><img src="img/templates/texteye-left.png" data-toggle="tooltip" data-title="Texto e olho"/></div>
+            <div class="thumb" data-template="textpict"><img src="img/templates/textpict-left.png" data-toggle="tooltip" data-title="Texto e imagem"/></div>
+            <div class="thumb" data-template="video"><img src="img/templates/video.png" data-toggle="tooltip" data-title="Vídeo"/></div>
+            <div class="thumb" data-template="box"><img src="img/templates/box.png" data-toggle="tooltip" data-title="Box destaque/dica"/></div>
+            <div class="thumb" data-template="table"><img src="img/templates/table-striped.png" data-toggle="tooltip" data-title="Tabela"/></div>
+            <div class="thumb" data-template="accordion"><img src="img/templates/accordion.png" data-toggle="tooltip" data-title="Sanfona"/></div>	
+            <div class="thumb" data-template="tab"><img src="img/templates/tab.png" data-toggle="tooltip" data-title="Aba"/></div>	
+            <div class="thumb" data-template="carousel"><img src="img/templates/carousel.png" data-toggle="tooltip" data-title="Slider"/></div>
           </div>
             <hr/>
           <div id="controlers">
-            <a class="btn" href="javascript:void(0)" id="btn-html-source"><i class="icon-tags"></i> Código</a>
-            <a class="btn" href="javascript:void(0)" id="btn-html-grid"><i class="icon-eye-close"></i> Grid</a>
-            <a class="btn" href="javascript:void(0)" id="btn-html-tocopy"><i class="icon-filter"></i> Copiar</a>
-            <a class="btn" href="javascript:void(0)" id="btn-html-save"><i class="icon-download-alt"></i> Salvar</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-source" data-toggle="tooltip" data-title="Editar código"><i class="icon-tags"></i> Código</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-grid" data-toggle="tooltip" data-title="Exibir/ocultar grade"><i class="icon-eye-close"></i> Grid</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-tocopy" data-toggle="tooltip" data-title="Copiar código"><i class="icon-filter"></i> Copiar</a>
+            <a class="btn" href="javascript:void(0)" id="btn-html-save" data-toggle="tooltip" data-title="Salvar página"><i class="icon-download-alt"></i> Salvar</a>
           </div>
       </div>
 	</div> 
