@@ -66,15 +66,21 @@ a:hover, a:focus{
 	color:#333;
 }
 
-h1, h2, h3, h4, h5, h6{ margin-top:0;}
-h2{
+.miolo{
+    width:74.35897435897436%
+}
+
+.miolo h1, 
+.miolo h2, 
+.miolo h3, 
+.miolo h4, 
+.miolo h5, 
+.miolo h6{ margin-top:0;}
+
+.miolo h2{
 	font-style:italic;
 	font-weight:bold;
 	line-height:36px;
-}
-
-.miolo{
-    width:74.35897435897436%
 }
 
 .miolo h3{
@@ -82,13 +88,13 @@ h2{
 	line-height: 30px;
 }
 
-label{cursor:default;}
+.miolo label{cursor:default;}
 
 /*TABLE*/
-.table{
+.miolo .table{
     word-break: break-word;
 }
-caption{
+.miolo caption{
     font-size: 24px;
     font-weight: bold;
     border: 1px solid #ccc;
@@ -100,18 +106,20 @@ caption{
     background-color: #aaa;
     color: #fff;
 }
-th, td {
+.miolo th, 
+.miolo td {
 	border-color:#ccc;
 }
 
-.tab-content {
+.miolo .tab-content {
 	overflow: visible;
 }
-.table-bordered {
+.miolo .table-bordered {
 	border-collapse: collapse;
 }
 
-.table-bold td, .table-bold th{font-weight:bold;}
+.miolo .table-bold td, 
+.miolo .table-bold th{font-weight:bold;}
 
 .miolo .table-highlight-header tbody > tr:first-child td{
     background-color:blue;
@@ -119,56 +127,59 @@ th, td {
 }
 
 /*BOX*/
-.box-imagem{margin-bottom:20px;}
-.box-imagem img{border:1px solid #ccc; margin:0 !important;}
-.box-imagem label{color:#999; font-weight:bold; font-style:italic;}
+.miolo .box-imagem{margin-bottom:20px;}
+.miolo .box-imagem img{border:1px solid #ccc; margin:0 !important;}
+.miolo .box-imagem label{color:#999; font-weight:bold; font-style:italic;}
 
-.box-citacao{
+.miolo .box-citacao{
 	font-size:20px;
 	font-style:italic;
 	color:#3366A5;
 	line-height:130%;
 }
 
-.box-dica{
+.miolo .box-dica{
 	background: #DFEFFF url(../images/fundo-box.png) repeat-x 0 0;
 	border: 1px solid #ccc;
 	border-radius:4px;
 	padding:10px 15px;
 }
 
-.box-dica h4{
+.miolo .box-dica h4{
 	border-bottom:1px dotted #ccc;
 	background: transparent url(../images/ico-dica.png) no-repeat top right;
 	padding: 4px 0;
 }
 
-.box-destaque{
+.miolo .box-destaque{
 	background-color:#eee;
 	border: 1px solid #ccc;
 	border-radius:4px;
-	padding:10px 10px 10px 40px;
+	padding:10px;
 	margin: 10px 0;
 }
-.box-destaque.linkexterno{
+.miolo .box-destaque.linkexterno{
 	background-image:url(../images/ico-link-externo.png);
 	background-repeat:no-repeat;
 	background-position:10px center;
+    padding-left:40px;
 }
-.box-destaque.saibamais{
+.miolo .box-destaque.saibamais{
 	background-image:url(../images/ico-saibamais.png);
 	background-repeat:no-repeat;
 	background-position:10px center;
+    padding-left:40px;
 }
 
-    .box-destaque.sem-icone {
+    .miolo .box-destaque.sem-icone {
         padding-left: 10px;
     }
-    .box-dica.sem-icone h4{
+    .miolo .box-dica.sem-icone h4{
         background:none;
     }
 
-.noborder, .noborder img{
+.miolo .noborder, 
+.miolo .noborder img{
     border:none;
 }
 .miolo .nomargin {
@@ -178,8 +189,8 @@ th, td {
     margin-bottom:0;
 }
 
-.miolo .pull-right{ margin-left:2.3% !important; margin-right:0 !important;}
-.miolo .pull-left{ margin-right:2.3% !important; margin-left:0 !important;}
+.miolo .pull-right{ margin-left:2.127659574468085%; margin-right:0;}
+.miolo .pull-left{ margin-right:2.127659574468085%; margin-left:0;}
 .miolo ul ul{list-style:circle;}
 .miolo .clearfix{
 	clear:both;
@@ -193,37 +204,38 @@ th, td {
 }
 
 /*videoaula*/
-.sinopse{
+.miolo .sinopse{
 	font-weight:bold;
 }
-.reqtec{
+.miolo .reqtec{
 	font-weight:bold;
 }
-.integra-tit{
+.miolo .integra-tit{
 	font-weight:bold;
 }
-.integra-scroll{
+.miolo .integra-scroll{
 	border:1px solid #bbb;
 	overflow:auto;
 	max-height:250px;
 	padding:10px;
 }
 
-.tabvideoaula{
+.miolo .tabvideoaula{
 	margin:20px 0;
 }
-.tabvideoaula .jwplayer{
+.miolo .tabvideoaula .jwplayer{
 	margin-left:auto !important;
 	margin-right:auto !important;
 } 
 
-.miolo .pull-left {
+/*.miolo .pull-left {
     margin-left: 0;
     margin-right:20px;
 }
+*/
 
 /*SLIDER*/
-.carousel{
+.miolo .carousel{
     width: 100%;
     max-width: 700px;
     margin:auto;
@@ -240,7 +252,8 @@ th, td {
 
 /* VERSAO CELULAR LANDSCAPE*/
 @media(max-width:767px){
-	.miolo .span4, .miolo .span8{
+	.miolo .span4, 
+    .miolo .span8{
 		width: 48.93617021276595%;
 		float:left;
 	}
@@ -248,14 +261,14 @@ th, td {
 		float:left;
 	}
 	
-	.dl-horizontal dt {
+	.miolo .dl-horizontal dt {
 		float: left;
 		width: 180px;
 		clear: left;
 		text-align: right;
 	}
 	
-	.dl-horizontal dd {
+	.miolo .dl-horizontal dd {
 		margin-left: 200px;
 	}
 	
@@ -263,8 +276,9 @@ th, td {
 
 /* VERSAO CELULAR LANDSCAPE*/
 @media(max-width:640px){
-	.miolo .span4, .miolo .span8{
-		width: 100%%;
+	.miolo .span4, 
+    .miolo .span8{
+		width: 100%;
 		float:none;
         margin-left:0;
 	}
@@ -273,40 +287,42 @@ th, td {
 /*VERSd CELULAR*/
 @media(max-width:480px) { 
 
-	h1{font-size:28px;}
+	.miolo h1{font-size:28px;}
 	
-	.row-fluid [class*="span"] {
+	.miolo .row-fluid [class*="span"] {
 		display: block;
 		float: none;
 		width: 100%;
 		margin-left: 0;
 	}
 	
-	.box-imagem, .box-citacao, .box-dica{
+	.miolo .box-imagem, 
+    .miolo .box-citacao, 
+    .miolo .box-dica{
 		margin-bottom:15px;
 	}
 	
-	.dl-horizontal{
+	.miolo .dl-horizontal{
 		margin: 0 0 10px 0;
 	}
 	
-	.dl-horizontal dt {
+	.miolo .dl-horizontal dt {
 		float: none;
 		width: auto;
 		clear: none;
 		text-align: left;
 	}
 	
-	.dl-horizontal dd {
+	.miolo .dl-horizontal dd {
 		margin-left: 0;
 		margin-bottom:5px;
 	}
 	
-	.no-overflow {
+	.miolo .no-overflow {
 		overflow: visible;
 	}
 	
-	.tabvideoaula .jwplayer{
+	.miolo .tabvideoaula .jwplayer{
 		max-width:100%;
 	}
 }

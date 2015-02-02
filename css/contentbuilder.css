@@ -5,10 +5,6 @@
 .anchor{
     border-top:1px dashed #99E5FF;
     min-height:25px;
-    /*height:1px;
-    line-height:1px;
-    font-size:0;
-    overflow:hidden;*/
 }
 
 .cursor-moveto{
@@ -71,7 +67,6 @@
     float:none;
     clear:both;
 }
-.template{}
 
 .ctn > div.span4, .ctn > div.span8{
     border:1px dotted #ccc;

@@ -13,6 +13,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.accordion.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do Accordion', templates.accordion.properties.template_modal, templates.accordion.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.accordion.properties.started){
                 templates.accordion.properties.template_full = $("#template_accordion").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -22,8 +27,6 @@ var templates = {
                 templates.accordion.properties.template_modal = templates.accordion.properties.template_full[3];
                 templates.accordion.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do Accordion', templates.accordion.properties.template_modal, templates.accordion.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var child_id, template, child, tool, content, textarea, templateBlock, childBlock, childrenBlock;
@@ -124,6 +127,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.tab.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do tab', templates.tab.properties.template_modal, templates.tab.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.tab.properties.started){
                 templates.tab.properties.template_full = $("#template_tab").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace('> <','><').split("##");
@@ -134,8 +142,6 @@ var templates = {
                 templates.tab.properties.template_modal = templates.tab.properties.template_full[4],
                 templates.tab.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do tab', templates.tab.properties.template_modal, templates.tab.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var child_id, template_nav, template_pane, child_nav, child_pane, tool, content, textarea, templateBlock, this_pane, childBlock, childrenBlock;;
@@ -243,6 +249,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.carousel.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do carousel', templates.carousel.properties.template_modal, templates.carousel.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.carousel.properties.started){
                 templates.carousel.properties.template_full = $("#template_carousel").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -253,8 +264,6 @@ var templates = {
                 templates.carousel.properties.template_modal = templates.carousel.properties.template_full[4];
                 templates.carousel.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do carousel', templates.carousel.properties.template_modal, templates.carousel.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var child_id, template, child_inner, child_indicator, tool, content, idx;
@@ -343,6 +352,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.table.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do table', templates.table.properties.template_modal, templates.table.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.table.properties.started){
                 templates.table.properties.template_full = $("#template_table").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -351,8 +365,6 @@ var templates = {
                 templates.table.properties.template_modal = templates.table.properties.template_full[2];
                 templates.table.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do table', templates.table.properties.template_modal, templates.table.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var content, tool, table, caption;
@@ -501,6 +513,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.box.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do box', templates.box.properties.template_modal, templates.box.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.box.properties.started){
                 templates.box.properties.template_full = $("#template_box").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -508,8 +525,6 @@ var templates = {
                 templates.box.properties.template_modal = templates.box.properties.template_full[1];
                 templates.box.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do box', templates.box.properties.template_modal, templates.box.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var content, tool;
@@ -589,6 +604,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.pict.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do pict', templates.pict.properties.template_modal, templates.pict.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.pict.properties.started){
                 templates.pict.properties.template_full = $("#template_pict").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -597,8 +617,6 @@ var templates = {
                 templates.pict.properties.template_modal = templates.pict.properties.template_full[2];
                 templates.pict.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do pict', templates.pict.properties.template_modal, templates.pict.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var template, content, tool, url, anchor, img;
@@ -704,6 +722,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.textpict.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do textpict', templates.textpict.properties.template_modal, templates.textpict.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.textpict.properties.started){
                 templates.textpict.properties.template_full = $("#template_textpict").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -712,8 +735,6 @@ var templates = {
                 templates.textpict.properties.template_modal = templates.textpict.properties.template_full[2];
                 templates.textpict.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do textpict', templates.textpict.properties.template_modal, templates.textpict.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var template, content, content_text = [], tool, flagImageBox = false, url, anchor, img;
@@ -828,6 +849,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.texteye.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do texteye', templates.texteye.properties.template_modal, templates.texteye.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.texteye.properties.started){
                 templates.texteye.properties.template_full = $("#template_texteye").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -836,8 +862,6 @@ var templates = {
                 templates.texteye.properties.template_modal = templates.texteye.properties.template_full[2];
                 templates.texteye.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do texteye', templates.texteye.properties.template_modal, templates.texteye.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var template, content, content_text = [], tool, flagImageBox = false;
@@ -933,6 +957,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.text.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do text', templates.text.properties.template_modal, templates.text.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.text.properties.started){
                 templates.text.properties.template_full = $("#template_text").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -940,8 +969,6 @@ var templates = {
                 templates.text.properties.template_modal = templates.text.properties.template_full[1];
                 templates.text.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do text', templates.text.properties.template_modal, templates.text.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var content, tool;
@@ -1003,6 +1030,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.video.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do video', templates.video.properties.template_modal, templates.video.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.video.properties.started){
                 templates.video.properties.template_full = $("#template_video").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -1015,8 +1047,6 @@ var templates = {
                 templates.video.properties.template_modal = templates.video.properties.template_full[6];
                 templates.video.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do video', templates.video.properties.template_modal, templates.video.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var video, sources, captions, chapters, script, sourcesfull, sources = "", source, tracks, hiddenform, tool;
@@ -1099,6 +1129,11 @@ var templates = {
             template_modal:null,
         },
         init:function(ui){
+            templates.container.setProperties();
+            //chama o modal para inserir conteúdo
+            templates.utils.modal.openModal('Conteúdo do container', templates.container.properties.template_modal, templates.container.mergeContent,templates.utils.getUid(),ui);
+        },
+        setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
             if(!templates.container.properties.started){
                 templates.container.properties.template_full = $("#template_container").html().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><').split("##");
@@ -1109,8 +1144,6 @@ var templates = {
                 templates.container.properties.template_modal = templates.container.properties.template_full[4];
                 templates.container.properties.started = true;
             }
-            //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do container', templates.container.properties.template_modal, templates.container.mergeContent,templates.utils.getUid(),ui);
         },
         mergeContent:function(template_id,ui){
             var ctn, tool;
@@ -1144,7 +1177,7 @@ var templates = {
     utils:{
         appendAll:function(template_name,elements,ui,template_id){
             var block_name = 'bloco-'+template_name;
-            var block = $('<div id="bloco_'+template_id+'" class="bloco '+block_name+' ui-sortable-handle"></div>');
+            var block = $('<div id="bloco_'+template_id+'" class="bloco row-fluid '+block_name+' ui-sortable-handle"></div>');
             
             block.append(elements);
             templates.utils.blockMouseHandler(block);
@@ -1280,6 +1313,9 @@ var templates = {
             template_name = templates.utils.regex.findTemplate.exec(block.attr('class'));
             template_name = template_name.toString().split('-')[1];
             template_id = block.attr('id').split('_')[1];
+            
+            //ativa as variaveis dos templates;
+            templates[template_name].setProperties();
             
             //não possui tool?
             if(block.find('.tool').size() == 0){
