@@ -83,6 +83,16 @@ var templates = {
                 return template;
             }
         },
+        resizeImageBox:function(template_id,ui){
+            var imageBox = $('#bloco_'+template_id).find('.box-imagem').eq(0);
+                  imageBox.removeAttr('class').addClass('box-imagem');
+            
+            var checkeds = $('#cropModalClasses').find('input:checked');
+            for(var x = 0; x < checkeds.length; x++){
+                 imageBox.addClass(checkeds.eq(x).val());
+            }
+            templates.crop.utils.resizeFrame(template_id);
+        },
         defineTools:function(template_id,bloco_rebind){
             var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.crop.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
             //EDIT
@@ -90,20 +100,16 @@ var templates = {
                 var template_id = $(this).parent().data('target');
                 var filledModal = getAppendedContent(template_id);
                 //chama o modal para editar conteúdo
-                templates.utils.modal.openModal('Conteúdo do crop', filledModal, templates.crop.mergeContent, template_id,'');
+                templates.utils.modal.openModal('Conteúdo do crop', filledModal, templates.crop.resizeImageBox, template_id,'');
                 
                 function getAppendedContent(template_id){
                     var crop, cropClasses, input, urltoken, anchoropen = '', anchorclose = '', template_modal;
                     crop = $('#bloco_'+template_id).find('.box-imagem').eq(0).clone();
                     cropClasses = crop.attr('class').split(' ');
                     
-                    if(crop.children().eq(0).get(0).tagName == "A"){
-                        anchoropen = '<a href="'+crop.children().eq(0).attr("href")+'">';
-                        anchorclose = '</a>';
-                    }
-                    urltoken = '<p>&gt;&gt;'+anchoropen+crop.find('img').eq(0).attr('src')+anchorclose+'</p>';
-                    
                     template_modal = $(templates.crop.properties.template_modal);
+                    template_modal.find('#cropModalFile').remove();
+                    template_modal.find('#cropModalContent').remove();
                     
                     for(x = 0; x < cropClasses.length; x++){
                         input = template_modal.find('#cropModal_'+cropClasses[x]);
@@ -112,15 +118,13 @@ var templates = {
                         }
                     }
                     
-                    template_modal.find('#cropModalContent').eq(0).append($('#bloco_'+template_id).clone().children().not('.box-imagem,.tool'),urltoken,crop.children().not('img'));
-                    
                     return template_modal;
                 }
             });
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
-            templates.utils.setMoveToButton(tools, templates.crop.utils.resizeFrameOnMoveTo, template_id);
+            templates.utils.setMoveToButton(tools, templates.crop.utils.resizeFrame, template_id);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -149,7 +153,7 @@ var templates = {
                 templates.crop.properties.instances["crop_"+template_id] = image.data('cropbox');
                 templates.crop.utils.dragResizeButton(template_id,block,image,download);
             },
-            resizeFrameOnMoveTo : function(template_id){
+            resizeFrame : function(template_id){
                 var block = $('#bloco_'+template_id);
                 var imageBlockWidth =  block.find('.box-imagem').eq(0).width();
                 var download = block.find('.download').eq(0).find('a').eq(0);
