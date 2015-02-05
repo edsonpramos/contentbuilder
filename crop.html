@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FCAV ContentBuilder</title>
+
+  <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">-->
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/contentbuilder.css" rel="stylesheet">
+  
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>-->
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/bootstrap-tooltip.js"></script>
+  <script src="ckeditor/ckeditor.js"></script>
+  
+  <script type="text/javascript" src="jquery-cropbox/jquery.cropbox.js"></script>
+  <link rel="stylesheet" href="jquery-cropbox/jquery.cropbox.css" type="text/css" media="all" />
+
+  <script src="js/crop.js"></script>
+  
+  <script>
+  $(function() {
+    
+    getCssProject();
+    
+    $('.btn, .thumb img').tooltip({placement:"left"});
+    
+    $( "#miolo" ).sortable({
+	  placeholder: "ui-state-highlight",
+	  items: ".bloco", 
+      cancel:".bloco-crop",
+	  cursorAt: { top: 5, left:5, },
+      delay: 150,
+	  receive:function(event,ui){
+        var template_name = ui.helper.data("template");
+        templates[template_name].init(ui);
+	  },
+	  change:function(event,ui){
+		$('.ui-sortable-helper').appendTo('#templates');
+	  },
+      start:function(event,ui){
+        ui.placeholder.css('height',ui.item.outerHeight());
+      },
+    });
+	
+	$("#miolo, #templates, .anchor").disableSelection();
+    
+	$( ".thumb" ).draggable({
+      helper: "clone",
+	  cursor:"crosshair",
+	  cursorAt: { top: 5, left:5, },
+      opacity:.7,
+	  connectToSortable: "#miolo",
+      start : function(event,ui){
+        var helper = ui.helper;
+        helper.children('img').tooltip('destroy');
+        helper.children('.tooltip').remove();
+      },
+    });
+    
+    CKEDITOR.disableAutoInline = true;
+    //CKEDITOR.config.startupFocus = true;
+    CKEDITOR.config.extraAllowedContent = 'textarea';
+    CKEDITOR.on('dialogDefinition', function (e) {
+        var dialogName = e.data.name;
+        var dialog = e.data.definition.dialog;
+        dialog.on('show', function () {
+           if($('#modal').size() > 0)$('#modal').attr('tabindex','');
+        });
+        dialog.on('hide', function () {
+            if($('#modal').size() > 0)$('#modal').attr('tabindex','-1');
+        });
+    });
+  });  
+
+  function getCssProject(){
+    var query = window.location.search.substring(1).split('=')[1];
+    var link;
+    query = (typeof(query) != "undefined")? "projects/" + query + "/" : "" ;
+    link = '<link href="'+query+'css/diagramacao.css" rel="stylesheet"/>';
+    $('head').append(link);
+  }  
+  </script>
+  
+  
+  <!--CONTAINER-->
+  <script id="template_container" type="text/template">
+      <div class="ctn">
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span8"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+      </div>
+      ##
+      <div class="ctn">
+        <div class="span8"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+      </div>
+      ##
+      <div class="ctn">
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+        <div class="span4"><div class="bloco ui-sortable-handle anchor">&nbsp;</div></div>
+      </div>
+      ##
+      <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
+        <li class="bt_moveto">~</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <div id="containerModal" class="form-inline">
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_1_2" checked="checked"> 1-2
+            </label>
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_2_1"> 2-1
+            </label>
+            <label class="checkbox">
+                <input type="radio" name="container" value="ctn_3"> 3
+            </label>
+        </div>
+	</form>
+      
+  </script>
+  
+  <!--CROP-->
+  <script id="template_crop" type="text/template">
+    <div class="box-imagem">
+        <div class="btResize"></div>
+        <div class="download">
+            <a href="#" download="croppedimage.png">Dowload</a>
+        </div>
+        <img class="img-responsive" src="" alt=""/>
+    </div>
+    ##
+    <ul class="tool hide" data-target="{{id}}">
+		<li class="bt_edit">/</li>
+		<li class="bt_delete">x</li>
+        <li class="bt_moveup">^</li>
+        <li class="bt_moveto">~</li>
+	</ul>
+    ##
+    <form class="formtomodal">
+        <input type="file" id="cropModalFile"><br/>
+        <div id="cropModalContent" contenteditable="true" class="likeTextarea editable"></div>
+        <span id="cropModalClasses" class="form-inline">
+            <label class="checkbox">
+                <input id="cropModal_noborder" type="checkbox" value="noborder"> noborder
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_nolegendmargin" type="checkbox" value="nolegendmargin"> nolegendmargin
+            </label>
+            <br/>
+            <label class="checkbox_group">
+                Alinhamento:
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_pull-left" type="radio" name="crop_align" value="pull-left"  checked="checked"> left
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_pull-right" type="radio" name="crop_align" value="pull-right"> right
+            </label>
+            <label class="checkbox_group">
+                Largura:
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_span4" type="radio" name="crop_width" value="span4"  checked="checked"> 1col
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_span8" type="radio" name="crop_width" value="span8"> 2cols
+            </label>
+            <label class="checkbox">
+                <input id="cropModal_span12" type="radio" name="crop_width" value="span12"> 3cols
+            </label>
+        </span>
+	</form>
+  </script> 
+  
+  <!--MODAL-->
+  <script id="template_modal" type="text/template">
+    <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+        <h3 id="modalLabel">Modal header</h3>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button id="modalCancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+        <button id="modalButton" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+  </script>
+</head>
+
+
+<style>
+.btResize{
+    display:none;
+    width:10px;
+    height:10px;
+    position:absolute;
+    overflow:hidden;
+    background-color:#666;
+    z-index:9999;
+    cursor:n-resize;
+}
+.btResize{
+    background-color:#999;
+}
+
+.bloco-crop.row{
+    margin-left:0;
+}
+</style>
+<body>
+	<div id="miolo" class="miolo">
+		<div class="bloco ui-sortable-handle anchor">&nbsp;</div>
+	</div>
+	<div id="tools">
+        <div class="scroll">
+          <div id="templates">
+            <div class="thumb" data-template="container"><img src="img/templates/container.png" data-toggle="tooltip" data-title="Container"/></div>
+            <div class="thumb" data-template="crop"><img src="img/templates/crop.png" data-toggle="tooltip" data-title="Crop de imagem"/></div>
+          </div>
+      </div>
+	</div> 
+ </body>
