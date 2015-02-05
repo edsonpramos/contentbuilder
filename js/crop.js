@@ -268,7 +268,7 @@ var templates = {
     utils:{
         appendAll:function(template_name,elements,ui,template_id,callback,args){
             var block_name = 'bloco-'+template_name;
-            var block = $('<div id="bloco_'+template_id+'" class="bloco anchor row-fluid '+block_name+'"></div>');
+            var block = $('<div id="bloco_'+template_id+'" class="bloco row-fluid '+block_name+'"></div>');
             
             block.append(elements);
             templates.utils.blockMouseHandler(block);
