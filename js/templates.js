@@ -569,7 +569,7 @@ var templates = {
                 function getAppendedContent(template_id){
                     var box = $('#box_'+template_id).clone();
                     var boxClasses = box.attr('class').split(' ');
-                    
+                    var input;
                     var template_modal = $(templates.box.properties.template_modal);
                     
                     for(x = 0; x < boxClasses.length; x++){
@@ -678,9 +678,9 @@ var templates = {
                 templates.utils.modal.openModal('Conteúdo do pict', filledModal, templates.pict.mergeContent, template_id,'');
                 
                 function getAppendedContent(template_id){
-                    var pict, pictClasses, urltoken, anchoropen = '', anchorclose = '', template_modal;
+                    var pict, pictClasses, input, urltoken, anchoropen = '', anchorclose = '', template_modal;
                     
-                    pict = $('#pict_'+template_id);
+                    pict = $('#pict_'+template_id).clone();
                     pictClasses = pict.attr('class').split(' ');
                     if(pict.children().eq(0).get(0).tagName == "A"){
                         anchoropen = '<a href="'+pict.children().eq(0).attr("href")+'">';
@@ -805,8 +805,8 @@ var templates = {
                 templates.utils.modal.openModal('Conteúdo do textpict', filledModal, templates.textpict.mergeContent, template_id,'');
                 
                 function getAppendedContent(template_id){
-                    var textpict, textpictClasses, urltoken, anchoropen = '', anchorclose = '', template_modal;
-                    textpict = $('#bloco_'+template_id).find('.box-imagem').eq(0);
+                    var textpict, textpictClasses, input, urltoken, anchoropen = '', anchorclose = '', template_modal;
+                    textpict = $('#bloco_'+template_id).find('.box-imagem').eq(0).clone();
                     textpictClasses = textpict.attr('class').split(' ');
                     
                     if(textpict.children().eq(0).get(0).tagName == "A"){
@@ -923,7 +923,7 @@ var templates = {
                     var texteye = $('#bloco_'+template_id).find('.box-citacao').eq(0);
                     var texteyeClasses = texteye.attr('class').split(' ');
                     var texteyeToken = $('<p>&gt;&gt;'+texteye.html()+'</p>');
-                    
+                    var input;
                     var template_modal = $(templates.texteye.properties.template_modal);
                     
                     for(x = 0; x < texteyeClasses.length; x++){
