@@ -120,7 +120,7 @@ var templates = {
             
             templates.utils.setDeleteButton(tools);
             templates.utils.setMoveUpButton(tools);
-            templates.utils.setMoveToButton(tools);
+            templates.utils.setMoveToButton(tools, templates.crop.utils.resizeFrameOnMoveTo, template_id);
             
             if(bloco_rebind == ""){
                 return tools;
@@ -147,17 +147,34 @@ var templates = {
                         download.attr('href', img.getDataURL());
                     });
                 templates.crop.properties.instances["crop_"+template_id] = image.data('cropbox');
-                templates.crop.utils.resizeButtonPosition(template_id,block,image,download);
+                templates.crop.utils.dragResizeButton(template_id,block,image,download);
             },
-            resizeButtonPosition : function(template_id,block,image,download){
-                var cropFrame = block.find('.cropFrame').eq(0),
-                      resizeButton = block.find('.btResize').eq(0);
-                
-                resizeButton.css({
+            resizeFrameOnMoveTo : function(template_id){
+                var block = $('#bloco_'+template_id);
+                var imageBlockWidth =  block.find('.box-imagem').eq(0).width();
+                var download = block.find('.download').eq(0).find('a').eq(0);
+                var cropFrame = block.find('.cropFrame').eq(0);
+                var instance = templates.crop.properties.instances['crop_'+template_id];
+                var resizeButton = block.find('.btResize').eq(0);
+
+                instance.options.width = imageBlockWidth;
+
+                cropFrame.css('width',imageBlockWidth+'px');
+                resizeButton = templates.crop.utils.defineResizeButton(resizeButton,cropFrame);
+            },
+            defineResizeButton : function(resizeButton,cropFrame){
+                return resizeButton.css({
                     top: (cropFrame.position().top + cropFrame.height() + 10 ) +"px",
                     left: (cropFrame.position().left + (cropFrame.width()*.5) - 5) + "px",
                     display:"block",
-                }).draggable({ 
+                });
+            },
+            dragResizeButton : function(template_id,block,image,download){
+                var cropFrame = block.find('.cropFrame').eq(0),
+                      resizeButton = block.find('.btResize').eq(0);
+                
+                templates.crop.utils.defineResizeButton(resizeButton,cropFrame)
+                .draggable({ 
                     axis: "y" ,
                     cursor: "n-resize",
                     start:function(event,ui){
@@ -474,7 +491,7 @@ var templates = {
                 if(bloco.prev().size() > 0) bloco.insertBefore(bloco.prev());
             });
         },
-        setMoveToButton : function(tools){
+        setMoveToButton : function(tools,callback,args){
             tools.children('.bt_moveto:eq(0)').click(function(){
                 $('#miolo').sortable( "disable" ).addClass('cursor-moveto');
                 templates._globals.moveme = $(this).parent().parent();//bloco pai
@@ -500,6 +517,13 @@ var templates = {
                                 $(this).after(templates._globals.moveme);
                                 templates._globals.moveme = "";
                                 $('.anchor').off();
+                                if(typeof(callback) == "function"){
+                                    if(typeof(args) != "undefined"){
+                                        callback(args);
+                                    }else{
+                                        callback();
+                                    }
+                                }
                             }else{
                                 console.log('bloco não pode ser inserido dentro de si mesmo');
                             }
