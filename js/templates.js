@@ -1447,7 +1447,7 @@ var templates = {
             init : function(){
                 var code = $('#miolo').clone();
                 code = $('<textarea class="html-source">'+code.html().toString()+'</textarea>');
-                templates.utils.modal.openModal('Código HTML pronto para copiar/colar', code, templates.controlers.btn_html_source.replaceCode, '', '');
+                templates.utils.modal.openModal('Código HTML para edição avançada', code, templates.controlers.btn_html_source.replaceCode, '', '');
             },
             replaceCode : function(){
                 var content = $('<code></code>');
