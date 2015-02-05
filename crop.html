@@ -212,7 +212,7 @@
     position:absolute;
     overflow:hidden;
     background-color:#666;
-    z-index:9999;
+    z-index:1000;
     cursor:n-resize;
 }
 .btResize{
@@ -230,6 +230,17 @@
     }
     .miolo .box-imagem .cropFrame img{
         border:none;
+    }
+.download a{
+    background: transparent url('img/sprite.png') no-repeat -478px -5px;
+    width: 22px;
+    height: 22px;
+    text-indent:-9999px;
+    overflow:hidden;
+    display:block;
+}
+    .download a:hover{
+        background-position: -478px -36px
     }
 </style>
 <body>

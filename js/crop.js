@@ -148,8 +148,8 @@ var templates = {
                 var cropwidth = parseInt(block.find('.box-imagem').eq(0).width());
                 image.attr('src',result);
                 image.cropbox({width:cropwidth}).on('cropbox', function(event, result, img) {
-                        download.attr('href', img.getDataURL());
-                    });
+                    download.attr('href', img.getDataURL());
+                });
                 templates.crop.properties.instances["crop_"+template_id] = image.data('cropbox');
                 templates.crop.utils.dragResizeButton(template_id,block,image,download);
             },
