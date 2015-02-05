@@ -64,6 +64,10 @@
       },
     });
     
+    $('#btn-html-grid').click(function(){
+        templates.controlers.btn_html_grid.init();
+    });
+    
     CKEDITOR.disableAutoInline = true;
     //CKEDITOR.config.startupFocus = true;
     CKEDITOR.config.extraAllowedContent = 'textarea';
@@ -252,6 +256,10 @@
           <div id="templates">
             <div class="thumb" data-template="container"><img src="img/templates/container.png" data-toggle="tooltip" data-title="Container"/></div>
             <div class="thumb" data-template="crop"><img src="img/templates/crop.png" data-toggle="tooltip" data-title="Crop de imagem"/></div>
+          </div>
+          <hr/>
+          <div id="controlers">
+            <a class="btn" href="javascript:void(0)" id="btn-html-grid" data-toggle="tooltip" data-title="Exibir/ocultar grade"><i class="icon-eye-close"></i> Grid</a>
           </div>
       </div>
 	</div> 

@@ -558,4 +558,22 @@ var templates = {
             return newContent.html().toString();
         },
     },
+    //========================================= CONTROLERS ==========================================
+    controlers:{
+        btn_html_grid : {
+            properties:{
+                toogle:false,
+            },
+            init : function(){
+                if(templates.controlers.btn_html_grid.properties.toogle){
+                    $('.nogrid').removeClass('nogrid');
+                    templates.controlers.btn_html_grid.properties.toogle = false;
+                }else{
+                    $('.ctn > div').addClass('nogrid');
+                    $('.anchor').addClass('nogrid');
+                    templates.controlers.btn_html_grid.properties.toogle = true;
+                }
+            },
+        },
+    },
   };
