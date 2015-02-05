@@ -201,6 +201,10 @@
 
 
 <style>
+.download{
+    position:absolute;
+    z-index:1000;
+}
 .btResize{
     display:none;
     width:10px;
@@ -214,10 +218,15 @@
 .btResize{
     background-color:#999;
 }
-
 .bloco-crop.row{
     margin-left:0;
 }
+.cropFrame{
+    border:1px solid #ccc;
+}
+    .miolo .box-imagem .cropFrame img{
+        border:none;
+    }
 </style>
 <body>
 	<div id="miolo" class="miolo">
