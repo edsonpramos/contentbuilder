@@ -189,8 +189,15 @@ a:hover, a:focus{
     margin-bottom:0;
 }
 
-.miolo .pull-right{ margin-left:2.127659574468085%; margin-right:0;}
-.miolo .pull-left{ margin-right:2.127659574468085%; margin-left:0;}
+
+.miolo .row-fluid [class*="span"].pull-right {
+    margin-left: 2.127659574468085%;
+    margin-right: 0;
+}
+.miolo .row-fluid [class*="span"].pull-left{ 
+    margin-right:2.127659574468085%; 
+    margin-left:0;
+}
 .miolo ul ul{list-style:circle;}
 .miolo .clearfix{
 	clear:both;
@@ -240,7 +247,6 @@ a:hover, a:focus{
     max-width: 700px;
     margin:auto;
 }
-
 
 /*=========================== RESPONSIVIDADE =================================*/
 
