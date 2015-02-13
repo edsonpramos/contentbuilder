@@ -80,8 +80,8 @@
     
     
     CKEDITOR.disableAutoInline = true;
-    CKEDITOR.config.startupFocus = true;
-    CKEDITOR.config.extraAllowedContent = 'textarea';
+    //CKEDITOR.config.startupFocus = true;
+    CKEDITOR.config.extraAllowedContent = 'textarea; sup sub;';
     CKEDITOR.on('dialogDefinition', function (e) {
         var dialogName = e.data.name;
         var dialog = e.data.definition.dialog;

@@ -1234,15 +1234,15 @@ var templates = {
         },
         getToolbar:function(template_name){
             var basics = { 
-                copypaste : [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+                copypaste : ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
                 tbl : ['Table'],
-                link : [ 'Image','Link','Unlink'],
-                list : [ 'NumberedList','BulletedList','-','Outdent','Indent'],
-                style : [ 'Bold', 'Italic','Subscript','Superscript'],
+                link : ['Image','Link','Unlink'],
+                list : ['NumberedList','BulletedList','-','Outdent','Indent'],
+                style : ['Bold', 'Italic','Subscript','Superscript'],
                 fmt : ['Format'],
             }
             
-            var normal = [basics.copypaste, basics.link, '/', basics.style, basics.list, basics.fmt];
+            var normal = [basics.copypaste, basics.link, '/', basics.style, basics.list, basics.fmt, '-', 'Source'];
             
             var toolbar = {
                 accordion : normal,
