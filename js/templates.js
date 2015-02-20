@@ -1032,7 +1032,7 @@ var templates = {
         init:function(ui){
             templates.video.setProperties();
             //chama o modal para inserir conteúdo
-            templates.utils.modal.openModal('Conteúdo do video', templates.video.properties.template_modal, templates.video.mergeContent,templates.utils.getUid(),ui);
+            templates.utils.modal.openModal('Conteúdo do vídeo', templates.video.properties.template_modal, templates.video.mergeContent,templates.utils.getUid(),ui);
         },
         setProperties : function(){
             //sapara o conteúdo da tag script em strings distintas
@@ -1049,28 +1049,27 @@ var templates = {
             }
         },
         mergeContent:function(template_id,ui){
-            var video, sources, captions, chapters, script, sourcesfull, sources = "", source, tracks, hiddenform, tool;
+            var video, sources, captions, chapters, script, sourcesfull, flash, sources = "", source, tracks, hiddenform, tool;
             
             //pega os dados do form
             sourcesfull = $('#video-sources').val().toString().replace(/[\n\r\t]/gi,"").split(';');
-            captions = templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-captions').val()).replace('\{\{kind\}\}','captions');
-            chapters = templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-chapters').val()).replace('\{\{kind\}\}','captions');
+            captions = ($('#video-captions').val().trim() != "") ? templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-captions').val()).replace('\{\{kind\}\}','captions') : "";
+            chapters = ($('#video-chapters').val().trim() != "") ? templates.video.properties.template_tracks.replace('\{\{file\}\}',$('#video-chapters').val()).replace('\{\{kind\}\}','chapters') : "";
             
             for(var x=0; x < sourcesfull.length; x++){
-                //if(sourcesfull[x].split(',').length >= 3){
-                    source = sourcesfull[x].split(',');
-                    sources += templates.video.properties.template_sources.replace('\{\{file\}\}',source[0]).replace('\{\{label\}\}',source[1]).replace('\{\{default\}\}',source[2]);
-               // }
+                source = sourcesfull[x].split(',');
+                sources += templates.video.properties.template_sources.replace('\{\{file\}\}',source[0]).replace('\{\{label\}\}',source[1]).replace('\{\{default\}\}',source[2]);
             }
            
             video = $(templates.video.properties.template_parent.replace('\{\{id\}\}',template_id));
-            script = $('<script>' + templates.video.properties.template_script.replace('\{\{id\}\}',template_id).replace('\{\{sources\}\}',sources).replace('\{\{tracks\}\}',captions+chapters).replace('\{\{image\}\}',$('#video-image').val()) + '</script>');
+            script = $('<script>' + templates.video.properties.template_script.replace('\{\{id\}\}',template_id).replace('\{\{sources\}\}',sources).replace('\{\{tracks\}\}',captions+chapters).replace('\{\{image\}\}',$('#video-image').val()).replace('\{\{flash\}\}',$('#video-flash').val()) + '</script>');
             
             hiddenform = templates.video.properties.template_hidden.replace('\{\{id\}\}',template_id),
             hiddenform = hiddenform.replace('\{\{sources\}\}',$('#video-sources').val().toString().replace(/[\n\r\t]/gi,""));
             hiddenform = hiddenform.replace('\{\{captions\}\}',$('#video-captions').val());
             hiddenform = hiddenform.replace('\{\{chapters\}\}',$('#video-chapters').val());
             hiddenform = hiddenform.replace('\{\{image\}\}',$('#video-image').val());
+            hiddenform = hiddenform.replace('\{\{flash\}\}',$('#video-flash').val());
             hiddenform = $(hiddenform);
             
             //Verifica existência do bloco do template
@@ -1097,12 +1096,14 @@ var templates = {
                     var captions = form_hidden.find('.video-captions').eq(0).val();
                     var chapters = form_hidden.find('.video-chapters').eq(0).val();
                     var image = form_hidden.find('.video-image').eq(0).val();
+                    var flash = form_hidden.find('.video-flash').eq(0).val();
                     var template_modal = $(templates.video.properties.template_modal);
                     
                     template_modal.find('#video-sources').eq(0).val(sources);
                     template_modal.find('#video-captions').eq(0).val(captions);
                     template_modal.find('#video-chapters').eq(0).val(chapters);
                     template_modal.find('#video-image').eq(0).val(image);
+                    template_modal.find('#video-flash').eq(0).val(flash);
                     
                     return template_modal;
                 }
@@ -1446,7 +1447,7 @@ var templates = {
         btn_html_source : {
             init : function(){
                 var code = $('#miolo').clone();
-                code = $('<textarea class="html-source">'+code.html().toString()+'</textarea>');
+                code = $('<textarea class="html-source">'+code.html()+'</textarea>');
                 templates.utils.modal.openModal('Código HTML para edição avançada', code, templates.controlers.btn_html_source.replaceCode, '', '');
             },
             replaceCode : function(){
