@@ -1117,6 +1117,11 @@ var templates = {
                 return tools;
             }
         },
+        fixFlashUrl:function(block){
+            if(block.find('.video-flash').size() == 0){
+                block.find('.form-hidden').eq(0).append('<input type="hidden" class="video-flash" value="http://moodlehom.vanzolini-gte.org.br/detranept/jwplayer/"/>');
+            }
+        },
     },
     //========================================= CONTAINER ==========================================
     container:{
@@ -1323,6 +1328,10 @@ var templates = {
                 tool = $(templates[template_name].properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
                 block.append(tool);
             }
+            //acrescenta campo ao legado publicado
+            if(template_name == 'video'){
+                templates[template_name].fixFlashUrl(block);
+            }
             
             templates[template_name].defineTools(template_id,block);
         },
@@ -1450,11 +1459,15 @@ var templates = {
                 code = $('<textarea class="html-source">'+code.html()+'</textarea>');
                 templates.utils.modal.openModal('Código HTML para edição avançada', code, templates.controlers.btn_html_source.replaceCode, '', '');
             },
+            //para receber o código que veio do modal, pelo botão 'enviar'
             replaceCode : function(){
                 var content = $('<code></code>');
-                       content.append($('#modal').find('.html-source').eq(0).val().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+                var htmlFromModal = $($('#modal').find('.html-source').eq(0).val().toString().replace(/[\n\r\t]/gi,"").replace(/\s{2,}/gi," ").replace(new RegExp("> <","gi"),'><'));
+                      htmlFromModal = (htmlFromModal.eq(0).hasClass('miolo')) ? htmlFromModal.eq(0).children() : htmlFromModal;
+                content.append(htmlFromModal);
                 var blocks = content.find('.bloco').not('.anchor');
                 
+                //recarrega os handlers
                 for(var x = 0; x < blocks.length; x++){
                     //achou um bloco de template?
                     if(templates.utils.regex.findTemplate.test(blocks.eq(x).attr('class'))){
