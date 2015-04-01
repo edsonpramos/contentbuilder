@@ -113,6 +113,7 @@ a:hover, a:focus{
 
 .miolo .tab-content {
 	overflow: visible;
+    margin-bottom: 20px;
 }
 .miolo .table-bordered {
 	border-collapse: collapse;
@@ -128,7 +129,7 @@ a:hover, a:focus{
 
 /*BOX*/
 .miolo .box-imagem{margin-bottom:20px;}
-.miolo .box-imagem img{border:1px solid #ccc; margin:0 !important;}
+.miolo .box-imagem img{border:1px solid #ccc; margin:0 !important; box-sizing: border-box;}
 .miolo .box-imagem label{color:#999; font-weight:bold; font-style:italic;}
 
 .miolo .box-citacao{
@@ -156,7 +157,7 @@ a:hover, a:focus{
 	border: 1px solid #ccc;
 	border-radius:4px;
 	padding:10px;
-	margin: 10px 0;
+	margin: 0 0 20px 0;
 }
 .miolo .box-destaque.linkexterno{
 	background-image:url(../images/ico-link-externo.png);
@@ -185,8 +186,12 @@ a:hover, a:focus{
 .miolo .nomargin {
     margin:0;
 }
-.miolo .nolegendmargin {
-    margin-bottom:0;
+.miolo .nolegendmargin, .miolo .nomarginbottom {
+ margin-bottom: 0;
+}
+
+.miolo .marginbottom {
+ margin-bottom: 20px;
 }
 
 
@@ -207,8 +212,11 @@ a:hover, a:focus{
 .miolo .jwplayer{
     width:100% !important;
     max-width: 700px;
-    margin:0 auto;
+    margin: 0 auto 20px auto;
 }
+    .form-hidden {
+      display:none;
+    }
 
 /*videoaula*/
 .miolo .sinopse{
@@ -246,6 +254,7 @@ a:hover, a:focus{
     width: 100%;
     max-width: 700px;
     margin:auto;
+    margin: 0 auto 20px auto;
 }
 
 /*=========================== RESPONSIVIDADE =================================*/

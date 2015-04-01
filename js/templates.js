@@ -294,9 +294,12 @@ var templates = {
                 }
             });
             
+                      
             //define o active
             template.find('.carousel-indicators').eq(0).children().eq(0).addClass('active');
             template.find('.carousel-inner').eq(0).children().eq(0).addClass('active');
+            
+            template = setAttribs(template);
             
             //Verifica existência do bloco do template
             if($('#bloco_'+template_id).size() > 0){
@@ -306,6 +309,21 @@ var templates = {
                 tool = templates.carousel.defineTools(template_id,"");
                 templates.utils.appendAll('carousel',[template,tool],ui,template_id);
             };
+            
+            function setAttribs(template){
+                var checkeds = $('#carouselModalAttribs').find('input:checked');
+                var attr, value;
+                
+                if(checkeds.length > 0){
+                    for(var x = 0; x < checkeds.length; x++){
+                        attr = checkeds.eq(x).attr("id").split("_")[1];
+                        value = checkeds.eq(x).val();
+                        template.attr(attr,value);
+                    }
+                }
+                
+                return template;
+            }
         },
         defineTools:function(template_id,bloco_rebind){
             var tools = (bloco_rebind != "") ? bloco_rebind.children('.tool').eq(0) : $(templates.carousel.properties.template_tool.replace(/(\{\{id\}\})/g,template_id));
@@ -320,13 +338,25 @@ var templates = {
                 function getAppendedContent(template_id){
                     var content = "";
                     var itens = $('#carousel_'+template_id).children('.carousel-inner').eq(0).children();
+                    var template_modal, carouselData, key;
                     
                     for (var x = 0; x < itens.length; x++){
                        content += ("<p>&gt;&gt;"+itens.eq(x).find('img').eq(0).attr('src')+"</p>");
                        content += itens.eq(x).find('.carousel-caption').eq(0).html().toString();
                     }
                     
-                    var template_modal = $(templates.carousel.properties.template_modal);
+                    template_modal = $(templates.carousel.properties.template_modal);
+                    
+                    carouselData = $('#carousel_'+template_id).data();
+                    
+                    //marca os checkboxes dos datasets usados
+                    for(key in carouselData){
+                        input = template_modal.find('#carouselModal_data-'+key);
+                        if(input.size() > 0){
+                            input.attr('checked','checked');
+                        }
+                    }
+                    
                     template_modal.find('.editable').eq(0).html(content);
                     
                     return template_modal;
